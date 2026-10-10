@@ -1,0 +1,29 @@
+# =======================
+# Frontend (React / Vite)
+# =======================
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.env
+Frontend/.env.*
+Frontend/*.local
+
+# =======================
+# Backend (.NET)
+# =======================
+Backend/bin/
+Backend/obj/
+Backend/appsettings.Development.json
+Backend/appsettings.json
+Backend/*.user
+
+# =======================
+# IDEs and OS
+# =======================
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln.docstates
+.DS_Store
+Thumbs.db
