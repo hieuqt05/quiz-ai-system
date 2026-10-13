@@ -34,24 +34,24 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-8">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary-600/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary-200/50 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-purple-200/40 rounded-full blur-3xl" />
       </div>
 
       <div className="w-full max-w-md animate-slide-up relative z-10">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500 to-cyan-500 mb-4 shadow-2xl shadow-primary-500/40">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500 to-cyan-500 mb-4 shadow-xl shadow-primary-500/20">
             <Brain className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-3xl font-bold gradient-text">Tạo tài khoản</h1>
-          <p className="text-gray-400 mt-2">Tham gia QuizAI ngay hôm nay</p>
+          <p className="text-slate-500 mt-2">Tham gia QuizAI ngay hôm nay</p>
         </div>
 
         <div className="card">
           <form onSubmit={handleSubmit} className="space-y-4">
             {fields.map(f => (
               <div key={f.key}>
-                <label className="block text-sm font-medium text-gray-300 mb-2">{f.label}</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">{f.label}</label>
                 <input
                   id={f.id}
                   type={f.type}
@@ -68,9 +68,9 @@ export default function RegisterPage() {
             </button>
           </form>
           <div className="mt-6 text-center">
-            <p className="text-gray-400 text-sm">
+            <p className="text-slate-500 text-sm">
               Đã có tài khoản?{' '}
-              <Link to="/login" className="text-primary-400 hover:text-primary-300 font-medium">Đăng nhập</Link>
+              <Link to="/login" className="text-primary-600 hover:text-primary-700 font-semibold">Đăng nhập</Link>
             </p>
           </div>
         </div>

@@ -18,8 +18,8 @@ public class SubmissionsController(IQuizService quizService) : ControllerBase
     {
         try
         {
-            var submissionId = await quizService.StartSubmissionAsync(CurrentUserId, request.ExamId);
-            return Ok(new { submissionId });
+            var result = await quizService.StartSubmissionAsync(CurrentUserId, request.ExamId);
+            return Ok(result);
         }
         catch (InvalidOperationException ex)
         {

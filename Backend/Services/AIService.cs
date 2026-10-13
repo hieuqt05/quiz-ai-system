@@ -15,7 +15,7 @@ public interface IAIService
 public class AIService(AppDbContext db, IConfiguration config, IHttpClientFactory httpClientFactory) : IAIService
 {
     private readonly string _geminiApiKey = config["GeminiApiKey"] ?? "";
-    private const string GeminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent";
+    private const string GeminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent";
 
     public async Task<AIGenerateResponse> GenerateQuestionsAsync(AIGenerateRequest request, int userId)
     {
@@ -153,14 +153,21 @@ public class AIService(AppDbContext db, IConfiguration config, IHttpClientFactor
 
         // Extract text from Gemini response structure
         using var doc = JsonDocument.Parse(responseJson);
-        var text = doc.RootElement
+        var parts = doc.RootElement
             .GetProperty("candidates")[0]
             .GetProperty("content")
-            .GetProperty("parts")[0]
-            .GetProperty("text")
-            .GetString() ?? "";
+            .GetProperty("parts");
 
-        return text;
+        var sb = new StringBuilder();
+        foreach (var part in parts.EnumerateArray())
+        {
+            if (part.TryGetProperty("text", out var textElem))
+            {
+                sb.Append(textElem.GetString());
+            }
+        }
+
+        return sb.ToString();
     }
 
     private static AIRawResponse? ParseAIResponse(string rawText)

@@ -7,7 +7,7 @@ namespace QuizApi.Services;
 
 public interface IQuizService
 {
-    Task<int> StartSubmissionAsync(int userId, int examId);
+    Task<StartSubmissionResponse> StartSubmissionAsync(int userId, int examId);
     Task<SubmissionResultDto?> SubmitExamAsync(SubmitExamRequest request, int userId);
     Task<SubmissionResultDto?> GetResultAsync(int submissionId, int userId);
     Task<List<SubmissionResultDto>> GetUserHistoryAsync(int userId);
@@ -15,20 +15,39 @@ public interface IQuizService
 
 public class QuizService(AppDbContext db) : IQuizService
 {
-    public async Task<int> StartSubmissionAsync(int userId, int examId)
+    public async Task<StartSubmissionResponse> StartSubmissionAsync(int userId, int examId)
     {
-        // Check if already in progress
-        var existing = await db.Submissions.FirstOrDefaultAsync(
-            s => s.UserId == userId && s.ExamId == examId && s.Status == SubmissionStatus.IN_PROGRESS);
-
-        if (existing != null) return existing.SubmissionId;
-
         var exam = await db.Exams
             .Include(e => e.Questions.Where(q => q.Status == QuestionStatus.APPROVED))
             .FirstOrDefaultAsync(e => e.ExamId == examId && e.Status == ExamStatus.PUBLISHED);
 
-        if (exam == null) throw new InvalidOperationException("Exam not found or not published.");
+        if (exam == null) throw new InvalidOperationException("Đề thi không tồn tại hoặc chưa công bố.");
 
+        int totalAllowedSeconds = Math.Max(60, exam.DurationMinutes * 60);
+
+        // Kiểm tra xem có bài thi nào đang làm dở (IN_PROGRESS) không
+        var existing = await db.Submissions.FirstOrDefaultAsync(
+            s => s.UserId == userId && s.ExamId == examId && s.Status == SubmissionStatus.IN_PROGRESS);
+
+        if (existing != null)
+        {
+            var elapsed = (int)(DateTime.UtcNow - existing.StartedAt).TotalSeconds;
+            // Nếu bài thi dở vẫn còn trong thời gian cho phép
+            if (elapsed < totalAllowedSeconds)
+            {
+                return new StartSubmissionResponse(existing.SubmissionId, totalAllowedSeconds - elapsed);
+            }
+            else
+            {
+                // Bài thi cũ đã hết giờ từ trước -> tự động đóng bài cũ
+                existing.Status = SubmissionStatus.COMPLETED;
+                existing.TimeTaken = totalAllowedSeconds;
+                existing.SubmittedAt = existing.StartedAt.AddSeconds(totalAllowedSeconds);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        // Tạo bài làm mới
         var submission = new Submission
         {
             UserId = userId,
@@ -40,7 +59,7 @@ public class QuizService(AppDbContext db) : IQuizService
 
         db.Submissions.Add(submission);
         await db.SaveChangesAsync();
-        return submission.SubmissionId;
+        return new StartSubmissionResponse(submission.SubmissionId, totalAllowedSeconds);
     }
 
     public async Task<SubmissionResultDto?> SubmitExamAsync(SubmitExamRequest request, int userId)
@@ -89,7 +108,10 @@ public class QuizService(AppDbContext db) : IQuizService
             ? Math.Round((decimal)correct / questions.Count * 100, 2)
             : 0;
         submission.SubmittedAt = DateTime.UtcNow;
-        submission.TimeTaken = (int)(submission.SubmittedAt.Value - submission.StartedAt).TotalSeconds;
+
+        var elapsedSeconds = (int)(submission.SubmittedAt.Value - submission.StartedAt).TotalSeconds;
+        int maxAllowedSeconds = Math.Max(60, submission.Exam.DurationMinutes * 60);
+        submission.TimeTaken = Math.Clamp(elapsedSeconds, 1, maxAllowedSeconds);
         submission.Status = SubmissionStatus.COMPLETED;
 
         db.SubmissionDetails.AddRange(details);

@@ -61,10 +61,12 @@ export default function App() {
           position="top-right"
           toastOptions={{
             style: {
-              background: '#1a1a2e',
-              color: '#e2e8f0',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: '#ffffff',
+              color: '#0f172a',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)',
               borderRadius: '12px',
+              fontWeight: 500,
             },
             success: { iconTheme: { primary: '#10b981', secondary: '#fff' } },
             error: { iconTheme: { primary: '#ef4444', secondary: '#fff' } },

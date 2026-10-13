@@ -136,6 +136,11 @@ public record StartSubmissionRequest(
     [Required] int ExamId
 );
 
+public record StartSubmissionResponse(
+    int SubmissionId,
+    int RemainingSeconds
+);
+
 public record SubmitAnswerRequest(
     [Required] int QuestionId,
     int? SelectedOptionId
