@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { BookOpen, LogOut, User, BarChart2, Brain, Shield } from 'lucide-react';
+import ServerStatus from './ServerStatus';
 
 export default function Navbar() {
   const { user, logout, isTeacher, isAdmin } = useAuth();
@@ -38,6 +39,9 @@ export default function Navbar() {
 
         {/* User / Auth */}
         <div className="flex items-center gap-3">
+          {/* Server status badge */}
+          <ServerStatus />
+
           {user ? (
             <>
               <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg">

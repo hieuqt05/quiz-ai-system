@@ -64,6 +64,15 @@ public class ExamsController(IExamService examService) : ControllerBase
         return Ok(new { message = "Đề thi đã được lưu trữ." });
     }
 
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "TEACHER,ADMIN")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var success = await examService.DeleteExamAsync(id);
+        if (!success) return NotFound(new { message = "Không tìm thấy đề thi cần xóa." });
+        return Ok(new { message = "Đã xóa đề thi thành công." });
+    }
+
     [HttpPost("{examId}/questions")]
     [Authorize(Roles = "TEACHER,ADMIN")]
     public async Task<IActionResult> AddQuestion(int examId, [FromBody] CreateQuestionRequest request)

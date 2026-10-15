@@ -43,10 +43,29 @@ export default function AdminPage() {
     } catch { toast.error('Lỗi khi tạo đề thi!'); }
   };
 
+  const [deletingId, setDeletingId] = useState(null);
+
   const handlePublish = async (id) => {
     await examApi.publish(id);
     toast.success('Đề thi đã được công bố!');
     loadExams();
+  };
+
+  const handleDeleteExam = async (exam) => {
+    if (!window.confirm(`Bạn có chắc chắn muốn xóa vĩnh viễn đề thi "${exam.title}" không?\n\nLưu ý: Tất cả câu hỏi và lượt thi liên quan cũng sẽ bị xóa!`)) {
+      return;
+    }
+    setDeletingId(exam.examId);
+    try {
+      await examApi.delete(exam.examId);
+      toast.success(`Đã xóa đề thi "${exam.title}" thành công!`);
+      if (stats?.examId === exam.examId) setStats(null);
+      loadExams();
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Lỗi khi xóa đề thi!');
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const handleApprove = async (qId) => {
@@ -193,6 +212,20 @@ export default function AdminPage() {
                     </button>
                     <button onClick={() => handleLoadStats(exam.examId)} className="btn-secondary py-1.5 px-3 text-sm flex items-center gap-1">
                       <BarChart2 className="w-3.5 h-3.5" /> Stats
+                    </button>
+                    <button
+                      id={`delete-exam-${exam.examId}`}
+                      onClick={() => handleDeleteExam(exam)}
+                      disabled={deletingId === exam.examId}
+                      className="btn-secondary py-1.5 px-3 text-sm flex items-center gap-1 text-red-600 hover:bg-red-50 hover:border-red-300 transition-colors"
+                      title="Xóa đề thi"
+                    >
+                      {deletingId === exam.examId ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <Trash2 className="w-3.5 h-3.5" />
+                      )}
+                      Xóa
                     </button>
                   </div>
                 </div>

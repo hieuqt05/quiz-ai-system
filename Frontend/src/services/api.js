@@ -1,8 +1,14 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
-const api = axios.create({ baseURL: API_BASE });
+const api = axios.create({
+  baseURL: API_BASE,
+  timeout: 15000, // 15 giây timeout
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 // Attach JWT to every request
 api.interceptors.request.use(config => {
@@ -11,7 +17,7 @@ api.interceptors.request.use(config => {
   return config;
 });
 
-// Auto-logout on 401
+// Auto-logout on 401 / handle network errors
 api.interceptors.response.use(
   res => res,
   err => {
@@ -20,6 +26,12 @@ api.interceptors.response.use(
       localStorage.removeItem('quiz_user');
       window.location.href = '/login';
     }
+
+    // Lỗi mạng (không kết nối được server)
+    if (!err.response) {
+      err.message = 'Không thể kết nối server. Kiểm tra lại mạng hoặc server đã tắt.';
+    }
+
     return Promise.reject(err);
   }
 );
@@ -39,6 +51,7 @@ export const examApi = {
   create: (data) => api.post('/exams', data),
   publish: (id) => api.patch(`/exams/${id}/publish`),
   archive: (id) => api.patch(`/exams/${id}/archive`),
+  delete: (id) => api.delete(`/exams/${id}`),
   addQuestion: (examId, data) => api.post(`/exams/${examId}/questions`, data),
   getPendingQuestions: (examId) => api.get('/exams/questions/pending', { params: { examId } }),
   approveQuestion: (qId) => api.patch(`/exams/questions/${qId}/approve`),

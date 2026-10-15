@@ -13,6 +13,7 @@ public interface IExamService
     Task<ExamDto> CreateExamAsync(CreateExamRequest request, int createdBy);
     Task<bool> PublishExamAsync(int examId);
     Task<bool> ArchiveExamAsync(int examId);
+    Task<bool> DeleteExamAsync(int examId);
     Task<QuestionDto> AddQuestionAsync(int examId, CreateQuestionRequest request, int createdBy);
     Task<bool> ApproveQuestionAsync(int questionId);
     Task<bool> RejectQuestionAsync(int questionId);
@@ -98,6 +99,48 @@ public class ExamService(AppDbContext db) : IExamService
         var exam = await db.Exams.FindAsync(examId);
         if (exam == null) return false;
         exam.Status = ExamStatus.ARCHIVED;
+        await db.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> DeleteExamAsync(int examId)
+    {
+        var exam = await db.Exams.FindAsync(examId);
+        if (exam == null) return false;
+
+        // 1. Xóa chi tiết bài nộp và bài nộp liên quan
+        var submissions = await db.Submissions
+            .Where(s => s.ExamId == examId)
+            .Include(s => s.Details)
+            .ToListAsync();
+
+        if (submissions.Count != 0)
+        {
+            db.SubmissionDetails.RemoveRange(submissions.SelectMany(s => s.Details));
+            db.Submissions.RemoveRange(submissions);
+        }
+
+        // 2. Xóa các lựa chọn (options) và câu hỏi thuộc đề thi
+        var questions = await db.Questions
+            .Where(q => q.ExamId == examId)
+            .Include(q => q.Options)
+            .ToListAsync();
+
+        if (questions.Count != 0)
+        {
+            db.Options.RemoveRange(questions.SelectMany(q => q.Options));
+            db.Questions.RemoveRange(questions);
+        }
+
+        // 3. Gỡ liên kết đề thi khỏi nhật ký tạo câu hỏi AI (nếu có)
+        var aiLogs = await db.AIGenerationLogs.Where(l => l.ExamId == examId).ToListAsync();
+        foreach (var log in aiLogs)
+        {
+            log.ExamId = null;
+        }
+
+        // 4. Xóa đề thi
+        db.Exams.Remove(exam);
         await db.SaveChangesAsync();
         return true;
     }
