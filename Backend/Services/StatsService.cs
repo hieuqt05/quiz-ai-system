@@ -53,7 +53,8 @@ public class StatsService(AppDbContext db) : IStatsService
             s.SubmissionId, $"{s.User.FullName} ({s.User.Username})",
             s.TotalScore, s.TotalQuestions, s.CorrectAnswers,
             s.TimeTaken, s.Status.ToString(),
-            s.SubmittedAt ?? DateTime.UtcNow, []
+            s.SubmittedAt ?? DateTime.UtcNow, [],
+            s.ViolationCount
         )).ToList();
     }
 

@@ -47,7 +47,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddCors(opts =>
 {
     opts.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
+        policy.SetIsOriginAllowed(_ => true) // Cho phép tất cả IP máy khác / LAN / Internet kết nối
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials());

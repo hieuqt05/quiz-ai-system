@@ -112,6 +112,7 @@ public class QuizService(AppDbContext db) : IQuizService
         var elapsedSeconds = (int)(submission.SubmittedAt.Value - submission.StartedAt).TotalSeconds;
         int maxAllowedSeconds = Math.Max(60, submission.Exam.DurationMinutes * 60);
         submission.TimeTaken = Math.Clamp(elapsedSeconds, 1, maxAllowedSeconds);
+        submission.ViolationCount = request.ViolationCount;
         submission.Status = SubmissionStatus.COMPLETED;
 
         db.SubmissionDetails.AddRange(details);
@@ -182,7 +183,8 @@ public class QuizService(AppDbContext db) : IQuizService
             submission.TimeTaken,
             submission.Status.ToString(),
             submission.SubmittedAt ?? DateTime.UtcNow,
-            answerResults
+            answerResults,
+            submission.ViolationCount
         ));
     }
 }

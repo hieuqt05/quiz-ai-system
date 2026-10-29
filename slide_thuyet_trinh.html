@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Báo Cáo Giữa Kỳ: Đồ Án Lập Trình Mạng - QuizAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #090d16;
+      --bg-card: rgba(18, 24, 38, 0.85);
+      --bg-card-hover: rgba(28, 36, 56, 0.95);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.3);
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #06b6d4;
+      --accent: #ec4899;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-sub: #cbd5e1;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+
+    /* Ambient Background Glow */
+    .ambient-glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.25;
+    }
+    .glow-1 {
+      top: -100px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+    }
+    .glow-2 {
+      bottom: -150px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+    }
+
+    /* Presentation Header & Progress */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: rgba(9, 13, 22, 0.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 100;
+    }
+
+    .progress-bar-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 5%;
+      background: linear-gradient(90deg, #6366f1, #06b6d4);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #6366f1, #06b6d4);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-icon {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-sub);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .slide-counter {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+    }
+    .slide-counter span {
+      color: var(--primary-light);
+      font-weight: 600;
+    }
+
+    /* Slide Deck Wrapper */
+    .deck-container {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+      padding-top: 52px;
+      padding-bottom: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .slide {
+      position: absolute;
+      width: 90vw;
+      max-width: 1360px;
+      height: calc(100vh - 124px);
+      max-height: 820px;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.97) translateY(12px);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 32px 44px;
+      background: var(--bg-card);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    .slide::-webkit-scrollbar {
+      width: 6px;
+    }
+    .slide::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+      z-index: 20;
+    }
+
+    /* Slide Typography & Shared Elements */
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary-light);
+      margin-bottom: 8px;
+    }
+
+    .slide-tag::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    .slide-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    /* Card Component */
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+    }
+    .card-title .icon {
+      font-size: 18px;
+    }
+    .card-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Highlight badge */
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+    .badge-primary { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .badge-cyan { background: rgba(6, 182, 212, 0.15); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); }
+    .badge-green { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-amber { background: rgba(245, 158, 11, 0.15); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-pink { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+
+    /* Tables */
+    .styled-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13.5px;
+      margin-top: 10px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+    .styled-table th {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-sub);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .styled-table td {
+      padding: 12px 16px;
+      color: var(--text-main);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.015);
+    }
+    .styled-table tr:last-child td {
+      border-bottom: none;
+    }
+    .styled-table tr:hover td {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* Diagram Blocks */
+    .diagram-box {
+      background: #0d121f;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #93c5fd;
+      position: relative;
+    }
+
+    .step-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .flow-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 16px;
+      transition: all 0.2s;
+    }
+    .flow-item:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+    .flow-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: white;
+      flex-shrink: 0;
+    }
+    .flow-content {
+      flex: 1;
+    }
+    .flow-title {
+      font-weight: 600;
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+    .flow-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    /* Protocol Handshake Vis */
+    .handshake-vis {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 10px 0;
+    }
+    .handshake-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .hs-party {
+      width: 110px;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .hs-arrow {
+      flex: 1;
+      margin: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .hs-arrow-line {
+      width: 100%;
+      height: 2px;
+      background: var(--primary-light);
+      position: relative;
+    }
+    .hs-arrow.to-right .hs-arrow-line::after {
+      content: '▶';
+      position: absolute;
+      right: -2px;
+      top: -7px;
+      font-size: 10px;
+      color: var(--primary-light);
+    }
+    .hs-arrow.to-left .hs-arrow-line::before {
+      content: '◀';
+      position: absolute;
+      left: -2px;
+      top: -7px;
+      font-size: 10px;
+      color: var(--primary-light);
+    }
+    .hs-text {
+      font-size: 11.5px;
+      font-family: var(--font-mono);
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+
+    /* Bottom Control Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(9, 13, 22, 0.8);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      z-index: 100;
+    }
+
+    .nav-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-nav {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.2));
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .btn-nav:hover {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(6, 182, 212, 0.4));
+      border-color: var(--primary-light);
+      transform: translateY(-1px);
+    }
+    .btn-nav:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      border: 1px solid #818cf8;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+    }
+
+    .key-hints {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .key-box {
+      display: inline-block;
+      padding: 2px 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #fff;
+    }
+
+    /* Modal Slide List */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-box {
+      width: 90vw;
+      max-width: 960px;
+      max-height: 80vh;
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 28px;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .modal-slide-item {
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .modal-slide-item:hover, .modal-slide-item.current {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--primary);
+    }
+    .modal-slide-item .num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--primary-light);
+      margin-bottom: 4px;
+    }
+    .modal-slide-item .title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Print styles for exporting to PDF */
+    @media print {
+      body {
+        overflow: visible !important;
+        background: #090d16 !important;
+        color: #fff !important;
+      }
+      .top-bar, .bottom-bar, .ambient-glow, .modal-overlay {
+        display: none !important;
+      }
+      .deck-container {
+        padding: 0 !important;
+        height: auto !important;
+        display: block !important;
+      }
+      .slide {
+        position: relative !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        width: 100% !important;
+        height: 100vh !important;
+        max-width: none !important;
+        max-height: none !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        border: none !important;
+        border-radius: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ambient background glow -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="brand">
+      <span class="brand-badge">Lập Trình Mạng</span>
+      <span>Đồ Án Giữa Kỳ: <strong>QuizAI System</strong></span>
+    </div>
+
+    <div class="top-controls">
+      <div class="slide-counter">
+        Slide <span id="current-slide-num">01</span> / <span id="total-slide-num">17</span>
+      </div>
+      <button class="btn-icon" onclick="toggleSlideModal()" title="Danh sách các slide">
+        <span>☰</span> Mục lục
+      </button>
+      <button class="btn-icon" onclick="toggleFullScreen()" title="Chế độ toàn màn hình">
+        <span>⛶</span> Toàn màn hình
+      </button>
+      <button class="btn-icon" onclick="window.print()" title="In hoặc lưu dạng PDF">
+        <span>🖨️</span> In / PDF
+      </button>
+    </div>
+
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+  </header>
+
+  <!-- Deck Container -->
+  <main class="deck-container">
+
+    <!-- SLIDE 1: COVER -->
+    <section class="slide active" id="slide-1">
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 900px; margin: 0 auto;">
+        <span class="badge badge-primary" style="font-size: 13px; padding: 6px 14px; margin-bottom: 16px;">
+          ĐỒ ÁN GIỮA KỲ MÔN LẬP TRÌNH MẠNG
+        </span>
+        <h1 style="font-size: 46px; font-weight: 800; line-height: 1.15; margin-bottom: 16px; background: linear-gradient(135deg, #ffffff 20%, #a5b4fc 60%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          QuizAI – Hệ Thống Trắc Nghiệm Online Tích Hợp Trí Tuệ Nhân Tạo
+        </h1>
+        <p style="font-size: 18px; color: var(--text-muted); line-height: 1.6; margin-bottom: 36px; max-width: 760px;">
+          Ứng dụng kiến thức mạng máy tính: Kiến trúc Client-Server, Mô hình RESTful API, Giao thức TCP/IP, Cơ chế HTTPS/TLS và Bảo mật xác thực JWT kết hợp AI sinh đề tự động.
+        </p>
+
+        <div style="display: flex; gap: 24px; justify-content: center; width: 100%; max-width: 700px;">
+          <div class="card" style="flex: 1; text-align: left;">
+            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Giảng viên hướng dẫn</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 4px;">Giảng viên bộ môn Lập Trình Mạng</div>
+            <div style="font-size: 12.5px; color: var(--secondary); margin-top: 2px;">Khoa Công Nghệ Thông Tin</div>
+          </div>
+          <div class="card" style="flex: 1; text-align: left;">
+            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Sinh viên thực hiện</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 4px;">Nguyễn Văn Tèo & Nhóm</div>
+            <div style="font-size: 12.5px; color: var(--primary-light); margin-top: 2px;">GitHub: github.com/hieuqt05/quiz-ai-system</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: LÝ DO CHỌN ĐỀ TÀI -->
+    <section class="slide" id="slide-2">
+      <div class="slide-tag">01. Tổng Quan & Bối Cảnh</div>
+      <h2 class="slide-title">Lý Do Chọn Đề Tài & Mục Tiêu Dự Án</h2>
+      <p class="slide-subtitle">Giải quyết nhu cầu kiểm tra đánh giá trực tuyến kết hợp công nghệ mạng hiện đại và AI.</p>
+
+      <div class="grid-2" style="margin-top: 8px;">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">⚠️</span> Thực Trạng & Thách Thức
+          </div>
+          <ul style="color: var(--text-sub); font-size: 14px; line-height: 1.8; padding-left: 20px;">
+            <li><strong>Áp lực biên soạn đề:</strong> Giáo viên mất nhiều giờ để soạn thảo ngân hàng câu hỏi trắc nghiệm đa dạng và chuẩn xác.</li>
+            <li><strong>Hệ thống thi online truyền thống:</strong> Thường cồng kềnh, thiếu tính năng tự động hóa và thiếu khả năng giải thích chi tiết câu sai.</li>
+            <li><strong>Yêu cầu độ trễ mạng thấp & tin cậy:</strong> Quá trình làm bài thi trực tuyến cần độ ổn định tuyệt đối về truyền tin, không mất gói dữ liệu.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">💡</span> Giải Pháp Đề Xuất (QuizAI)
+          </div>
+          <ul style="color: var(--text-sub); font-size: 14px; line-height: 1.8; padding-left: 20px;">
+            <li><strong>Tích hợp AI tạo đề (Google Gemini):</strong> Tự động sinh câu hỏi trắc nghiệm 4 đáp án theo chủ đề hoặc văn bản kèm lời giải chi tiết.</li>
+            <li><strong>Kiến trúc Client - Server hiện đại:</strong> Giao tiếp qua RESTful Web API tốc độ cao, xử lý đa luồng đồng thời.</li>
+            <li><strong>Bảo mật & Tính toàn vẹn:</strong> Ứng dụng HTTPS, chuẩn mã hóa JWT và BCrypt phòng chống gian lận và rò rỉ dữ liệu bài thi.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 16px; background: rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.3);">
+        <div class="card-title" style="color: var(--primary-light);">
+          🎯 Mục Tiêu Đạt Được Trong Môn Lập Trình Mạng
+        </div>
+        <p class="card-desc" style="color: #cbd5e1;">
+          Nắm vững và triển khai thực tế <strong>mô hình Client-Server</strong>, <strong>giao thức HTTP/HTTPS</strong>, <strong>cơ chế bắt tay TCP & TLS</strong>, <strong>phân tích luồng gói tin JSON qua REST API</strong> và <strong>kỹ thuật xác thực không trạng thái (Stateless Authentication)</strong>.
+        </p>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: THÀNH VIÊN & PHÂN CÔNG VIỆC -->
+    <section class="slide" id="slide-3">
+      <div class="slide-tag">02. Tổ Chức Dự Án</div>
+      <h2 class="slide-title">Thành Viên & Phân Công Công Việc</h2>
+      <p class="slide-subtitle">Phân chia rõ ràng trách nhiệm chuyên môn giữa các thành viên trong nhóm.</p>
+
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Thành viên</th>
+            <th>Vai trò</th>
+            <th>Nhiệm vụ chính phụ trách</th>
+            <th>Giao thức & Kỹ thuật phụ trách</th>
+            <th>Tiến độ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Nguyễn Văn Tèo</strong><br><span style="font-size: 11px; color: var(--text-muted);">(Trưởng nhóm)</span></td>
+            <td><span class="badge badge-primary">Fullstack & Network</span></td>
+            <td>Thiết kế kiến trúc hệ thống, Backend REST API, Database EF Core, quản lý luồng dữ liệu & triển khai</td>
+            <td>HTTP RESTful, TCP Connection, JWT Security, Reverse Proxy</td>
+            <td><span class="badge badge-green">100% Hoàn thành</span></td>
+          </tr>
+          <tr>
+            <td><strong>Thành viên 02</strong></td>
+            <td><span class="badge badge-cyan">Frontend & UI/UX</span></td>
+            <td>Xây dựng giao diện React SPA, trang thi trắc nghiệm đếm ngược, responsive giao diện trên TailwindCSS</td>
+            <td>Client HTTP Axios, State Management, LocalStorage Token</td>
+            <td><span class="badge badge-green">100% Hoàn thành</span></td>
+          </tr>
+          <tr>
+            <td><strong>Thành viên 03</strong></td>
+            <td><span class="badge badge-pink">AI Integration & Backend</span></td>
+            <td>Tích hợp Google Gemini API, Prompt Engineering, cơ chế Retry & Exponential Backoff, kiểm duyệt câu hỏi</td>
+            <td>External HTTPS Requests, JSON Schema Validation</td>
+            <td><span class="badge badge-green">100% Hoàn thành</span></td>
+          </tr>
+          <tr>
+            <td><strong>Thành viên 04</strong></td>
+            <td><span class="badge badge-amber">Testing & Documentation</span></td>
+            <td>Kiểm thử tải API, bắt gói tin phân tích HTTP/HTTPS, viết tài liệu kỹ thuật & slide báo cáo</td>
+            <td>Postman, Swagger, Wireshark/DevTools Network Analysis</td>
+            <td><span class="badge badge-green">100% Hoàn thành</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card" style="margin-top: 18px;">
+        <div class="card-title">🤝 Phương thức phối hợp & Quản lý mã nguồn</div>
+        <div class="card-desc">
+          Sử dụng <strong>Git & GitHub</strong> phân chia branch tính năng (<code>feature/auth</code>, <code>feature/exam</code>, <code>feature/ai</code>). Mã nguồn được quản lý tập trung tại: <code style="color: #67e8f9;">https://github.com/hieuqt05/quiz-ai-system</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: TIMELINE TIẾN ĐỘ -->
+    <section class="slide" id="slide-4">
+      <div class="slide-tag">03. Kế Hoạch & Tiến Độ</div>
+      <h2 class="slide-title">Timeline – Lộ Trình Phát Triển Dự Án</h2>
+      <p class="slide-subtitle">Quy trình thực hiện tuần tự qua 5 giai đoạn từ nghiên cứu đến hoàn thiện đồ án.</p>
+
+      <div class="step-flow" style="margin-top: 10px;">
+        <div class="flow-item">
+          <div class="flow-num">G1</div>
+          <div class="flow-content">
+            <div class="flow-title">Tuần 1 - 2: Khảo sát & Thiết kế Kiến trúc Mạng</div>
+            <div class="flow-desc">Nghiên cứu tài liệu Lập trình mạng, phân tích yêu cầu đề tài, thiết kế mô hình thực thể ERD (7 bảng), phác thảo RESTful API Endpoints và định tuyến mạng.</div>
+          </div>
+          <span class="badge badge-green">Đã xong</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">G2</div>
+          <div class="flow-content">
+            <div class="flow-title">Tuần 3 - 4: Phát triển Backend API & Cơ sở dữ liệu</div>
+            <div class="flow-desc">Xây dựng ASP.NET Core 9 Web API, cấu hình DbContext SQL Server, triển khai xác thực JWT Bearer, phân quyền Role (Student, Teacher, Admin), mã hóa BCrypt.</div>
+          </div>
+          <span class="badge badge-green">Đã xong</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">G3</div>
+          <div class="flow-content">
+            <div class="flow-title">Tuần 5 - 6: Tích hợp AI (Gemini) & Hoàn thiện Frontend SPA</div>
+            <div class="flow-desc">Kết nối Google Gemini API với cơ chế retry; xây dựng Frontend React + Vite: màn hình làm bài thi có đồng hồ đếm ngược, dashboard thống kê điểm số.</div>
+          </div>
+          <span class="badge badge-green">Đã xong</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">G4</div>
+          <div class="flow-content">
+            <div class="flow-title">Tuần 7: Kiểm thử Mạng, Bảo mật & Bắt gói tin</div>
+            <div class="flow-desc">Kiểm thử API qua Swagger/Postman, bắt gói tin HTTP/HTTPS, xác thực token header, kiểm tra cơ chế chống gian lận và đóng bài thi dở dang khi hết giờ.</div>
+          </div>
+          <span class="badge badge-green">Đã xong</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">G5</div>
+          <div class="flow-content">
+            <div class="flow-title">Tuần 8 (Hiện tại): Báo cáo Giữa Kỳ & Định hướng Cuối Kỳ</div>
+            <div class="flow-desc">Hoàn thiện slide thuyết trình, đóng gói tài liệu kỹ thuật, chuẩn bị kịch bản demo trực tiếp hệ thống cho hội đồng đánh giá.</div>
+          </div>
+          <span class="badge badge-primary">Báo cáo</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: PHÁC THẢO AI -->
+    <section class="slide" id="slide-5">
+      <div class="slide-tag">04. Trí Tuệ Nhân Tạo</div>
+      <h2 class="slide-title">Phác Thảo Thiết Kế AI & Prompt Engineering</h2>
+      <p class="slide-subtitle">Quy trình tự động hóa tạo câu hỏi trắc nghiệm có kiểm soát (Human-in-the-loop).</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🤖</span> Mô Hình & Chiến Lược Prompt
+          </div>
+          <p class="card-desc" style="margin-bottom: 12px;">
+            Hệ thống sử dụng model <strong>Gemini 3.8 Flash</strong> qua Google AI Studio API với các tham số tối ưu:
+          </p>
+          <div class="diagram-box" style="margin-bottom: 12px;">
+            {<br>
+            &nbsp;&nbsp;"model": "gemini-3.8-flash",<br>
+            &nbsp;&nbsp;"temperature": 0.7,<br>
+            &nbsp;&nbsp;"maxOutputTokens": 8192,<br>
+            &nbsp;&nbsp;"responseMimeType": "application/json"<br>
+            }
+          </div>
+          <ul style="color: var(--text-sub); font-size: 13px; line-height: 1.6; padding-left: 18px;">
+            <li><strong>Chế độ đầu vào:</strong> Nhập chủ đề (Topic) hoặc trích xuất từ tài liệu bài giảng (Raw Text).</li>
+            <li><strong>Cấu trúc JSON bắt buộc:</strong> Câu hỏi, 4 lựa chọn (A, B, C, D), đáp án chính xác và lời giải thích logic chi tiết.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🛡️</span> Quy Trình Kiểm Duyệt (Human-in-the-Loop)
+          </div>
+          <div class="step-flow" style="gap: 8px;">
+            <div class="flow-item" style="padding: 8px 12px;">
+              <div class="flow-num" style="width: 26px; height: 26px; font-size: 12px;">1</div>
+              <div class="flow-content">
+                <div class="flow-title" style="font-size: 13px;">AI sinh câu hỏi</div>
+                <div class="flow-desc">Server gọi Gemini API qua HTTPS POST</div>
+              </div>
+            </div>
+            <div class="flow-item" style="padding: 8px 12px;">
+              <div class="flow-num" style="width: 26px; height: 26px; font-size: 12px;">2</div>
+              <div class="flow-content">
+                <div class="flow-title" style="font-size: 13px;">Parse & Validate Schema</div>
+                <div class="flow-desc">Kiểm tra đủ 4 options, duy nhất 1 đáp án đúng</div>
+              </div>
+            </div>
+            <div class="flow-item" style="padding: 8px 12px;">
+              <div class="flow-num" style="width: 26px; height: 26px; font-size: 12px;">3</div>
+              <div class="flow-content">
+                <div class="flow-title" style="font-size: 13px;">Lưu DB trạng thái PENDING</div>
+                <div class="flow-desc">Chưa đưa vào đề thi của học sinh</div>
+              </div>
+            </div>
+            <div class="flow-item" style="padding: 8px 12px;">
+              <div class="flow-num" style="width: 26px; height: 26px; font-size: 12px;">4</div>
+              <div class="flow-content">
+                <div class="flow-title" style="font-size: 13px;">Giáo viên phê duyệt (APPROVED)</div>
+                <div class="flow-desc">Chỉnh sửa nếu cần trước khi chính thức phát hành đề</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 14px; background: rgba(6, 182, 212, 0.05); border-color: rgba(6, 182, 212, 0.3);">
+        <div class="card-title" style="color: var(--secondary);">
+          ⚡ Cơ Chế Xử Lý Lỗi Mạng & Rate Limit (Exponential Backoff)
+        </div>
+        <p class="card-desc" style="color: var(--text-sub);">
+          Khi gặp lỗi mạng hoặc HTTP Status <code>429 (Too Many Requests)</code> / <code>503 (Service Unavailable)</code> từ Gemini API, hệ thống kích hoạt tự động thử lại <strong>Retry tối đa 3 lần</strong> với thời gian chờ tăng lũy tiến (2s → 4s) trước khi báo lỗi về client, đảm bảo hệ thống không bị crash.
+        </p>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: CHỨC NĂNG HỆ THỐNG -->
+    <section class="slide" id="slide-6">
+      <div class="slide-tag">05. Tính Năng Sản Phẩm</div>
+      <h2 class="slide-title">Các Chức Năng Chính Của Hệ Thống</h2>
+      <p class="slide-subtitle">Xây dựng trọn vẹn theo 3 nhóm vai trò người dùng (Role-Based Access Control).</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title" style="color: #67e8f9;">
+            <span class="icon">🎓</span> Dành Cho Học Sinh
+          </div>
+          <ul style="color: var(--text-sub); font-size: 13.5px; line-height: 1.7; padding-left: 18px;">
+            <li>Đăng ký & Đăng nhập tài khoản cá nhân.</li>
+            <li>Tra cứu danh sách đề thi theo danh mục.</li>
+            <li><strong>Làm bài thi trực tuyến:</strong> Đồng hồ đếm ngược, lưu tạm trạng thái bài làm.</li>
+            <li><strong>Tự động nộp bài</strong> khi hết giờ đếm ngược.</li>
+            <li>Xem kết quả tức thì, phổ điểm và <strong>lời giải thích chi tiết</strong> từng câu.</li>
+            <li>Xem lại lịch sử thi đã thực hiện.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="color: #a5b4fc;">
+            <span class="icon">👨‍🏫</span> Dành Cho Giáo Viên
+          </div>
+          <ul style="color: var(--text-sub); font-size: 13.5px; line-height: 1.7; padding-left: 18px;">
+            <li>Quản lý đề thi (Tạo mới, chỉnh sửa, xóa đề thi).</li>
+            <li>Vòng đời đề thi: <code>DRAFT</code> → <code>PUBLISHED</code> → <code>ARCHIVED</code>.</li>
+            <li><strong>Sinh câu hỏi AI tự động</strong> theo chủ đề/đoạn văn bản bài học.</li>
+            <li>Duyệt / Từ chối câu hỏi do AI sinh.</li>
+            <li>Thêm câu hỏi thủ công truyền thống.</li>
+            <li>Xem thống kê điểm TB, tỷ lệ đạt của từng đề.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="color: #f472b6;">
+            <span class="icon">⚙️</span> Quản Trị Viên (Admin)
+          </div>
+          <ul style="color: var(--text-sub); font-size: 13.5px; line-height: 1.7; padding-left: 18px;">
+            <li>Toàn quyền quản lý mọi đề thi trong hệ thống.</li>
+            <li>Quản lý tài khoản người dùng (Khóa / Kích hoạt).</li>
+            <li>Phân quyền hệ thống (STUDENT / TEACHER / ADMIN).</li>
+            <li>Theo dõi nhật ký gọi AI (<code>AIGenerationLogs</code>).</li>
+            <li>Thống kê toàn diện danh sách bài nộp và phổ điểm tổng thể trường học.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: CÔNG NGHỆ SỬ DỤNG -->
+    <section class="slide" id="slide-7">
+      <div class="slide-tag">06. Công Nghệ & Kỹ Thuật</div>
+      <h2 class="slide-title">Ngăn Xếp Công Nghệ (Technology Stack)</h2>
+      <p class="slide-subtitle">Sự kết hợp giữa nền tảng Microsoft .NET hiện đại và hệ sinh thái React tiên tiến.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🖥️</span> Backend (ASP.NET Core 9.0 Web API)
+          </div>
+          <table class="styled-table" style="margin-top: 6px;">
+            <tr>
+              <td><strong>Framework</strong></td>
+              <td>ASP.NET Core Web API (.NET 9.0)</td>
+            </tr>
+            <tr>
+              <td><strong>ORM / Database</strong></td>
+              <td>Entity Framework Core 9.0 + SQL Server</td>
+            </tr>
+            <tr>
+              <td><strong>Xác thực & Mã hóa</strong></td>
+              <td>JWT Bearer Token + BCrypt.Net-Next</td>
+            </tr>
+            <tr>
+              <td><strong>HTTP Client</strong></td>
+              <td>IHttpClientFactory (gọi Gemini API)</td>
+            </tr>
+            <tr>
+              <td><strong>API Specs</strong></td>
+              <td>Swagger / OpenAPI UI (Port 5000)</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🌐</span> Frontend (React 19 + Vite 8)
+          </div>
+          <table class="styled-table" style="margin-top: 6px;">
+            <tr>
+              <td><strong>Library & Engine</strong></td>
+              <td>React 19 + Vite 8 (Hot Module Replacement)</td>
+            </tr>
+            <tr>
+              <td><strong>Styling</strong></td>
+              <td>Tailwind CSS 3.4 (Modern Dark UI)</td>
+            </tr>
+            <tr>
+              <td><strong>Client Routing</strong></td>
+              <td>React Router DOM v7 (Protected Routes)</td>
+            </tr>
+            <tr>
+              <td><strong>Mạng & API Client</strong></td>
+              <td>Axios (Intercept Bearer token tự động)</td>
+            </tr>
+            <tr>
+              <td><strong>Icon & UI Feedback</strong></td>
+              <td>Lucide React + React Hot Toast</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top: 14px;">
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 24px; margin-bottom: 6px;">🤖</div>
+          <div style="font-weight: 700; color: #fff;">Google Gemini AI</div>
+          <div style="font-size: 12px; color: var(--text-muted);">Model: gemini-3.8-flash</div>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 24px; margin-bottom: 6px;">🔒</div>
+          <div style="font-weight: 700; color: #fff;">Bảo Mật Kép</div>
+          <div style="font-size: 12px; color: var(--text-muted);">JWT Claim-based + BCrypt Hash</div>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 24px; margin-bottom: 6px;">⚡</div>
+          <div style="font-weight: 700; color: #fff;">Kiến Trúc Tách Rời</div>
+          <div style="font-size: 12px; color: var(--text-muted);">Decoupled SPA & REST Server</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: KIẾN TRÚC HỆ THỐNG -->
+    <section class="slide" id="slide-8">
+      <div class="slide-tag">07. Kiến Trúc Mạng</div>
+      <h2 class="slide-title">Kiến Trúc Hệ Thống Tổng Thể (3-Tier Architecture)</h2>
+      <p class="slide-subtitle">Mô hình phân tầng Client - Server phân tán bảo đảm tính độc lập và mở rộng.</p>
+
+      <div class="diagram-box" style="padding: 22px; font-size: 12.5px; line-height: 1.5;">
+        <div style="text-align: center; color: #38bdf8; font-weight: 700; margin-bottom: 12px;">
+          TẦNG 1: CLIENT TIER (Trình duyệt người dùng - React SPA: Port 5173)
+        </div>
+        <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 12px;">
+          <span class="badge badge-cyan">Học Sinh UI (Thi/Xem kết quả)</span>
+          <span class="badge badge-primary">Giáo Viên UI (Quản lý đề)</span>
+          <span class="badge badge-pink">Admin Dashboard (Thống kê)</span>
+        </div>
+
+        <div style="text-align: center; color: #fbbf24; margin: 8px 0;">
+          ▼ &nbsp; HTTP REST (JSON) + Authorization: Bearer &lt;JWT&gt; (Vite Reverse Proxy: /api) &nbsp; ▼
+        </div>
+
+        <div style="border: 1px dashed rgba(99, 102, 241, 0.5); border-radius: 10px; padding: 14px; margin-bottom: 12px;">
+          <div style="text-align: center; color: #a5b4fc; font-weight: 700; margin-bottom: 8px;">
+            TẦNG 2: SERVER TIER (ASP.NET Core Web API: Port 5000)
+          </div>
+          <div style="display: flex; justify-content: space-around; gap: 8px; text-align: center;">
+            <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; flex: 1;">
+              <strong>Controllers</strong><br><span style="font-size: 11px; color: var(--text-muted);">Auth, Exam, AI, Quiz, Admin</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; flex: 1;">
+              <strong>Service Layer</strong><br><span style="font-size: 11px; color: var(--text-muted);">AuthService, ExamService, AIService</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; flex: 1;">
+              <strong>Data Access (EF Core)</strong><br><span style="font-size: 11px; color: var(--text-muted);">AppDbContext, Models & Entities</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; gap: 20px;">
+          <div style="flex: 1; border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px; text-align: center;">
+            <div style="color: #6ee7b7; font-weight: 700;">TẦNG 3A: DATABASE TIER</div>
+            <div style="color: var(--text-muted); font-size: 11.5px; margin-top: 4px;">SQL Server LocalDB (7 Tables: Users, Exams, Questions, Options, Submissions, Details, Logs)</div>
+          </div>
+          <div style="flex: 1; border: 1px solid rgba(236, 72, 153, 0.4); border-radius: 8px; padding: 10px; text-align: center;">
+            <div style="color: #f472b6; font-weight: 700;">TẦNG 3B: EXTERNAL AI CLOUD</div>
+            <div style="color: var(--text-muted); font-size: 11.5px; margin-top: 4px;">Google Gemini API (HTTPS REST via generativelanguage.googleapis.com)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: GIAO THỨC MẠNG TRONG HỆ THỐNG -->
+    <section class="slide" id="slide-9">
+      <div class="slide-tag">08. Giao Thức Mạng</div>
+      <h2 class="slide-title">Các Giao Thức Mạng Áp Dụng (Mô Hình TCP/IP)</h2>
+      <p class="slide-subtitle">Phân tầng và cơ chế vận chuyển dữ liệu từ phần mềm người dùng đến tầng vật lý.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">📦</span> Phân Tầng Giao Thức Trong QuizAI
+          </div>
+          <table class="styled-table" style="margin-top: 8px;">
+            <tr>
+              <td><strong>Tầng Ứng Dụng (Application)</strong></td>
+              <td><span class="badge badge-primary">HTTP / HTTPS</span><br>Truyền tải JSON payload giữa React và ASP.NET Core</td>
+            </tr>
+            <tr>
+              <td><strong>Tầng Truyền Vận (Transport)</strong></td>
+              <td><span class="badge badge-cyan">TCP (Transmission Control)</span><br>Đảm bảo truyền tin tin cậy, không mất gói khi nộp bài thi</td>
+            </tr>
+            <tr>
+              <td><strong>Tầng Mạng (Network / Internet)</strong></td>
+              <td><span class="badge badge-green">IPv4 / IPv6 + ICMP</span><br>Định tuyến gói tin IP giữa các host mạng nội bộ/Internet</td>
+            </tr>
+            <tr>
+              <td><strong>Tầng Liên Kết & Vật Lý</strong></td>
+              <td><span class="badge badge-amber">Ethernet / Wi-Fi (802.11)</span><br>Mã hóa bit truyền qua dây cáp hoặc sóng vô tuyến</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🤝</span> Tại Sao Phải Dùng TCP Thay Vì UDP?
+          </div>
+          <div class="card-desc" style="line-height: 1.7; margin-bottom: 12px;">
+            Trong ứng dụng thi trắc nghiệm online, <strong>tính chính xác và toàn vẹn của dữ liệu là tiên quyết</strong>:
+          </div>
+          <ul style="color: var(--text-sub); font-size: 13px; line-height: 1.7; padding-left: 18px;">
+            <li><strong>Không chấp nhận mất gói:</strong> Một câu trả lời hoặc câu hỏi bị rớt gói tin sẽ làm sai lệch hoàn toàn kết quả thi của học sinh.</li>
+            <li><strong>Thứ tự gói tin:</strong> TCP đảm bảo các phân đoạn (segments) được ghép lại đúng thứ tự đã gửi.</li>
+            <li><strong>Cơ chế báo nhận (ACK) & Retransmission:</strong> Tự động truyền lại phân đoạn bị lỗi trên đường truyền mạng.</li>
+          </ul>
+
+          <div class="handshake-vis" style="margin-top: 10px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px;">
+            <div style="font-size: 11px; text-align: center; color: var(--text-muted); margin-bottom: 4px;">Cơ chế bắt tay 3 bước TCP (3-Way Handshake)</div>
+            <div class="handshake-row">
+              <div class="hs-party">Client</div>
+              <div class="hs-arrow to-right">
+                <span class="hs-text">1. SYN (seq = x)</span>
+                <div class="hs-arrow-line"></div>
+              </div>
+              <div class="hs-party">Server</div>
+            </div>
+            <div class="handshake-row">
+              <div class="hs-party">Client</div>
+              <div class="hs-arrow to-left">
+                <span class="hs-text">2. SYN-ACK (seq = y, ack = x+1)</span>
+                <div class="hs-arrow-line"></div>
+              </div>
+              <div class="hs-party">Server</div>
+            </div>
+            <div class="handshake-row">
+              <div class="hs-party">Client</div>
+              <div class="hs-arrow to-right">
+                <span class="hs-text">3. ACK (ack = y+1) [ESTABLISHED]</span>
+                <div class="hs-arrow-line"></div>
+              </div>
+              <div class="hs-party">Server</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: WEB PROTOCOL & RESTFUL API -->
+    <section class="slide" id="slide-10">
+      <div class="slide-tag">09. Web Protocol</div>
+      <h2 class="slide-title">Giao Thức Web & Cơ Chế Hoạt Động RESTful API</h2>
+      <p class="slide-subtitle">Định dạng bản tin HTTP Request / Response và nguyên lý truyền thông không trạng thái.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">📬</span> Cấu Trúc Thông Điệp HTTP (Request / Response)
+          </div>
+          <div class="diagram-box" style="margin-bottom: 10px; font-size: 11.5px;">
+            <span style="color: #f472b6;">POST /api/submissions/submit HTTP/1.1</span><br>
+            <span style="color: #94a3b8;">Host: localhost:5000</span><br>
+            <span style="color: #94a3b8;">Authorization: Bearer eyJhbGciOiJIUzI1Ni...</span><br>
+            <span style="color: #94a3b8;">Content-Type: application/json</span><br>
+            <br>
+            {<br>
+            &nbsp;&nbsp;"submissionId": 12,<br>
+            &nbsp;&nbsp;"answers": [{"questionId": 45, "selectedOptionId": 182}]<br>
+            }
+          </div>
+          <div class="diagram-box" style="font-size: 11.5px;">
+            <span style="color: #6ee7b7;">HTTP/1.1 200 OK</span><br>
+            <span style="color: #94a3b8;">Content-Type: application/json; charset=utf-8</span><br>
+            <br>
+            { "totalScore": 85.0, "status": "COMPLETED", "correctAnswers": 17 }
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">📑</span> Phương Thức HTTP & Mã Trạng Thái Chuẩn
+          </div>
+          <table class="styled-table" style="margin-top: 6px;">
+            <thead>
+              <tr><th>Method</th><th>Mục đích trong QuizAI</th><th>Status Code</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-cyan">GET</span></td>
+                <td>Lấy danh sách đề thi, kết quả thi</td>
+                <td><code>200 OK</code></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-green">POST</span></td>
+                <td>Đăng nhập, tạo đề, nộp bài, sinh AI</td>
+                <td><code>201 Created / 200 OK</code></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-amber">PATCH</span></td>
+                <td>Duyệt câu hỏi, publish đề thi</td>
+                <td><code>200 OK / 204 No Content</code></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-pink">DELETE</span></td>
+                <td>Xóa đề thi rác / không cần thiết</td>
+                <td><code>200 OK</code></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-primary">ERRORS</span></td>
+                <td>Sai mật khẩu / hết hạn token / lỗi server</td>
+                <td><code>401, 403, 404, 500</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="card-desc" style="margin-top: 10px; font-size: 12.5px;">
+            <strong>Tính chất Stateless:</strong> Mỗi HTTP request độc lập hoàn toàn; Server không cần lưu session bộ nhớ mà giải mã thông tin user trực tiếp từ JWT Header.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: HTTPS & CƠ CHẾ HOẠT ĐỘNG -->
+    <section class="slide" id="slide-11">
+      <div class="slide-tag">10. An Ninh Mạng</div>
+      <h2 class="slide-title">HTTPS: Cơ Chế Hoạt Động & Bảo Mật TLS/SSL</h2>
+      <p class="slide-subtitle">Bảo vệ tính bí mật và toàn vẹn dữ liệu bài thi trước các cuộc tấn công mạng.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🔐</span> Bản Chất Của HTTPS (HTTP over TLS)
+          </div>
+          <p class="card-desc" style="line-height: 1.7; margin-bottom: 12px;">
+            HTTPS là sự kết hợp giữa <strong>HTTP (Tầng ứng dụng)</strong> và <strong>giao thức TLS (Transport Layer Security)</strong> chạy trên cổng mặc định <strong>443</strong>.
+          </p>
+          <ul style="color: var(--text-sub); font-size: 13px; line-height: 1.8; padding-left: 18px;">
+            <li><strong>Chống nghe lén (Sniffing):</strong> Dữ liệu mật khẩu, đề thi và câu trả lời được mã hóa, kẻ tấn công dùng Wireshark chỉ thấy chuỗi byte ngẫu nhiên.</li>
+            <li><strong>Chống giả mạo (Data Tampering):</strong> Mã xác thực thông điệp MAC (Message Authentication Code) kiểm tra tính nguyên vẹn.</li>
+            <li><strong>Chống tấn công giả mạo (Man-in-the-Middle - MitM):</strong> Chứng chỉ số SSL/TLS do cơ quan chứng thực (CA) cấp chứng minh danh tính Server.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">⚡</span> Quy Trình Bắt Tay TLS Handshake
+          </div>
+          <div class="handshake-vis" style="background: rgba(0,0,0,0.25); padding: 12px; border-radius: 8px;">
+            <div class="handshake-row">
+              <div class="hs-party">Client</div>
+              <div class="hs-arrow to-right">
+                <span class="hs-text">1. Client Hello (TLS version, Cipher Suites)</span>
+                <div class="hs-arrow-line"></div>
+              </div>
+              <div class="hs-party">Server</div>
+            </div>
+            <div class="handshake-row">
+              <div class="hs-party">Client</div>
+              <div class="hs-arrow to-left">
+                <span class="hs-text">2. Server Hello + Certificate (Public Key)</span>
+                <div class="hs-arrow-line"></div>
+              </div>
+              <div class="hs-party">Server</div>
+            </div>
+            <div class="handshake-row">
+              <div class="hs-party">Client</div>
+              <div class="hs-arrow to-right">
+                <span class="hs-text">3. Xác thực Cert + Key Exchange (Pre-Master Secret)</span>
+                <div class="hs-arrow-line"></div>
+              </div>
+              <div class="hs-party">Server</div>
+            </div>
+            <div class="handshake-row">
+              <div class="hs-party">Client</div>
+              <div class="hs-arrow to-left">
+                <span class="hs-text">4. Finished (Mã hóa Session Key đối xứng AES)</span>
+                <div class="hs-arrow-line"></div>
+              </div>
+              <div class="hs-party">Server</div>
+            </div>
+          </div>
+          <p class="card-desc" style="margin-top: 10px; font-size: 12px; color: var(--secondary);">
+            ★ Tối ưu hóa: Dùng mã hóa bất đối xứng (RSA/ECC) để trao đổi khóa, sau đó dùng mã hóa đối xứng (AES-GCM) để truyền dữ liệu bài thi tốc độ cao.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: BẢO MẬT XÁC THỰC JWT & CORS -->
+    <section class="slide" id="slide-12">
+      <div class="slide-tag">11. Xác Thực & Kiểm Soát Truy Cập</div>
+      <h2 class="slide-title">Cơ Chế Xác Thực JWT & Chính Sách Mạng CORS</h2>
+      <p class="slide-subtitle">Bảo vệ tài nguyên API thông qua cơ chế chữ ký số không trạng thái (Stateless Token).</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🎫</span> Cấu Trúc & Xác Minh JSON Web Token (JWT)
+          </div>
+          <div class="diagram-box" style="margin-bottom: 10px; font-size: 12px;">
+            <span style="color: #f87171;">Header (Thuật toán HS256)</span> . <br>
+            <span style="color: #a78bfa;">Payload (UserId, Username, Role: STUDENT/TEACHER/ADMIN)</span> . <br>
+            <span style="color: #38bdf8;">Signature = HMAC-SHA256(Header + Payload, SecretKey)</span>
+          </div>
+          <ul style="color: var(--text-sub); font-size: 13px; line-height: 1.7; padding-left: 18px;">
+            <li>Client nhận JWT khi Login thành công và lưu vào <code>localStorage</code>.</li>
+            <li>Gửi kèm trong HTTP Header: <code>Authorization: Bearer &lt;Token&gt;</code>.</li>
+            <li>Backend dùng Secret Key đối chiếu chữ ký để xác thực mà <strong>không cần truy vấn lại Database</strong>, giảm tải tải mạng vượt trội.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🛡️</span> Giải Quyết Bài Toán Mạng: CORS & Reverse Proxy
+          </div>
+          <div class="card-desc" style="line-height: 1.7; margin-bottom: 12px;">
+            Trình duyệt thực thi <strong>Same-Origin Policy</strong> ngăn chặn Client (Port 5173) gọi trực tiếp Backend (Port 5000):
+          </div>
+          <div class="step-flow" style="gap: 8px;">
+            <div class="flow-item" style="padding: 10px 14px;">
+              <div class="flow-content">
+                <div class="flow-title" style="font-size: 13.5px; color: #67e8f9;">Cách 1: Cấu hình CORS Middleware trong ASP.NET Core</div>
+                <div class="flow-desc">Khai báo <code>app.UseCors()</code> cho phép <code>http://localhost:5173</code> với đầy đủ Header và Method.</div>
+              </div>
+            </div>
+            <div class="flow-item" style="padding: 10px 14px;">
+              <div class="flow-content">
+                <div class="flow-title" style="font-size: 13.5px; color: #a5b4fc;">Cách 2: Vite Reverse Proxy (Triển khai chính)</div>
+                <div class="flow-desc">Mọi request <code>/api/*</code> từ React được Vite Proxy ngầm chuyển tiếp sang <code>http://localhost:5000</code>, triệt tiêu lỗi CORS.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 13: LUỒNG DỮ LIỆU - XÁC THỰC ĐĂNG NHẬP -->
+    <section class="slide" id="slide-13">
+      <div class="slide-tag">12. Luồng Dữ Liệu (Data Flow)</div>
+      <h2 class="slide-title">Luồng Dữ Liệu 1: Đăng Nhập & Xác Thực Tài Khoản</h2>
+      <p class="slide-subtitle">Sơ đồ tuần tự các bước truyền tin từ khi người dùng nhập mật khẩu đến khi lưu Token.</p>
+
+      <div class="step-flow">
+        <div class="flow-item">
+          <div class="flow-num">1</div>
+          <div class="flow-content">
+            <div class="flow-title">Client gửi thông tin đăng nhập (HTTP POST)</div>
+            <div class="flow-desc">React gửi <code>POST /api/auth/login</code> mang payload JSON <code>{ username, password }</code> qua kết nối TCP.</div>
+          </div>
+          <span class="badge badge-cyan">Client → Server</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">2</div>
+          <div class="flow-content">
+            <div class="flow-title">Server kiểm tra tài khoản & mã hóa BCrypt</div>
+            <div class="flow-desc">AuthController gọi AuthService; truy vấn SQL Server tìm User; so sánh mật khẩu với hàm băm qua <code>BCrypt.Verify(password, user.PasswordHash)</code>.</div>
+          </div>
+          <span class="badge badge-primary">Backend & DB</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">3</div>
+          <div class="flow-content">
+            <div class="flow-title">Khởi tạo Token JWT & Gửi phản hồi</div>
+            <div class="flow-desc">Ký số JWT chứa Claims (UserId, Role, FullName) với Secret Key, trả về mã trạng thái <code>200 OK</code> kèm chuỗi Token.</div>
+          </div>
+          <span class="badge badge-green">Server → Client</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">4</div>
+          <div class="flow-content">
+            <div class="flow-title">Lưu trữ Client & Đính kèm các yêu cầu tiếp theo</div>
+            <div class="flow-desc">React lưu Token vào <code>localStorage</code>; Axios Interceptor tự động gán <code>Authorization: Bearer &lt;Token&gt;</code> vào tất cả các Request sau.</div>
+          </div>
+          <span class="badge badge-amber">Client State</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 14: LUỒNG DỮ LIỆU - SINH CÂU HỎI AI -->
+    <section class="slide" id="slide-14">
+      <div class="slide-tag">13. Luồng Dữ Liệu (Data Flow)</div>
+      <h2 class="slide-title">Luồng Dữ Liệu 2: Tự Động Sinh Câu Hỏi Bằng AI</h2>
+      <p class="slide-subtitle">Quy trình gọi API bên thứ ba (External REST Service) tích hợp kiểm soát phê duyệt.</p>
+
+      <div class="step-flow">
+        <div class="flow-item">
+          <div class="flow-num">1</div>
+          <div class="flow-content">
+            <div class="flow-title">Giáo viên gửi yêu cầu sinh câu hỏi</div>
+            <div class="flow-desc">Frontend gửi <code>POST /api/ai/generate</code> mang chủ đề (hoặc đoạn văn bản bài giảng), số lượng câu hỏi, độ khó.</div>
+          </div>
+          <span class="badge badge-cyan">POST Request</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">2</div>
+          <div class="flow-content">
+            <div class="flow-title">Backend tạo Prompt & Gọi Google Gemini API</div>
+            <div class="flow-desc">AIService đóng gói Prompt có System Instructions; dùng HttpClientFactory thực hiện HTTPS POST đến <code>generativelanguage.googleapis.com</code>.</div>
+          </div>
+          <span class="badge badge-primary">External API</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">3</div>
+          <div class="flow-content">
+            <div class="flow-title">Phân tích JSON, Validate cấu trúc & Lưu tạm vào DB</div>
+            <div class="flow-desc">Bóc tách chuỗi JSON trả về; kiểm tra hợp lệ 4 đáp án; lưu vào bảng <code>Questions</code> với trạng thái <code>PENDING</code> và ghi log <code>AIGenerationLogs</code>.</div>
+          </div>
+          <span class="badge badge-pink">Validation & DB</span>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-num">4</div>
+          <div class="flow-content">
+            <div class="flow-title">Kiểm duyệt bởi Giáo viên (Human-in-the-Loop)</div>
+            <div class="flow-desc">Giáo viên xem danh sách câu hỏi chờ duyệt; gửi <code>PATCH /api/exams/questions/{id}/approve</code> để chính thức mở thi cho học sinh.</div>
+          </div>
+          <span class="badge badge-green">Approval</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 15: LUỒNG DỮ LIỆU - THI & CHẤM ĐIỂM -->
+    <section class="slide" id="slide-15">
+      <div class="slide-tag">14. Luồng Dữ Liệu (Data Flow)</div>
+      <h2 class="slide-title">Luồng Dữ Liệu 3: Làm Bài Thi & Chấm Điểm Thời Gian Thực</h2>
+      <p class="slide-subtitle">Cơ chế đồng bộ thời gian và xử lý nộp bài an toàn không gian lận.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">⏱️</span> Bước 1: Khởi Tạo Bài Thi & Đồng Bộ Thời Gian
+          </div>
+          <div class="card-desc" style="line-height: 1.7;">
+            <p>Học sinh nhấn <strong>Bắt đầu làm bài</strong>:</p>
+            <ol style="padding-left: 18px; margin-top: 6px; font-size: 13px;">
+              <li>Client gửi <code>POST /api/submissions/start</code> kèm <code>examId</code>.</li>
+              <li>Server tạo record <code>Submissions</code> với <code>StartedAt = DateTime.UtcNow</code> và trạng thái <code>IN_PROGRESS</code>.</li>
+              <li>Server tính toán và trả về <code>RemainingSeconds</code> dựa trên đồng hồ Server, <strong>tránh việc học sinh chỉnh giờ máy tính cục bộ để gian lận</strong>.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">📊</span> Bước 2: Nộp Bài & Tính Điểm Tức Thì
+          </div>
+          <div class="card-desc" style="line-height: 1.7;">
+            <p>Học sinh nhấn Nộp bài hoặc <strong>Đồng hồ đếm ngược chạm 00:00</strong>:</p>
+            <ol style="padding-left: 18px; margin-top: 6px; font-size: 13px;">
+              <li>Client gửi <code>POST /api/submissions/submit</code> chứa danh sách các đáp án đã chọn.</li>
+              <li>Server duyệt từng câu, đối chiếu <code>IsCorrect</code> từ bảng <code>Options</code>.</li>
+              <li>Công thức điểm: <code>TotalScore = (Số câu đúng / Tổng số câu) * 100</code>.</li>
+              <li>Cập nhật trạng thái <code>COMPLETED</code> và trả về kết quả kèm <strong>lời giải thích chi tiết</strong>.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 14px; background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3);">
+        <div class="card-title" style="color: #6ee7b7;">🛡️ Cơ chế phục hồi sự cố mạng (Fault Tolerance)</div>
+        <p class="card-desc" style="color: #cbd5e1;">
+          Nếu học sinh vô tình bị mất mạng, rớt mạng hoặc đóng trình duyệt, khi vào lại đề thi, hệ thống sẽ tự động nhận diện bài nộp cũ đang <code>IN_PROGRESS</code>, tính toán trừ đi thời gian đã trôi qua và cho phép học sinh tiếp tục làm bài thi mà không bị mất dữ liệu.
+        </p>
+      </div>
+    </section>
+
+    <!-- SLIDE 16: KẾT QUẢ ĐẠT ĐƯỢC & DEMO GIAO DIỆN -->
+    <section class="slide" id="slide-16">
+      <div class="slide-tag">15. Thực Nghiệm & Kết Quả</div>
+      <h2 class="slide-title">Kết Quả Đạt Được & Giao Diện Thực Tế</h2>
+      <p class="slide-subtitle">Hệ thống đã triển khai hoàn chỉnh và vận hành ổn định trên môi trường thực tế.</p>
+
+      <div class="grid-4" style="margin-bottom: 16px;">
+        <div class="card" style="text-align: center; padding: 14px;">
+          <div style="font-size: 26px; font-weight: 800; color: #67e8f9;">100%</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">REST API Hoạt động ổn định</div>
+        </div>
+        <div class="card" style="text-align: center; padding: 14px;">
+          <div style="font-size: 26px; font-weight: 800; color: #a5b4fc;">&lt; 150ms</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Thời gian phản hồi API trung bình</div>
+        </div>
+        <div class="card" style="text-align: center; padding: 14px;">
+          <div style="font-size: 26px; font-weight: 800; color: #f472b6;">~ 3 giây</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Sinh 5-10 câu hỏi bằng Gemini AI</div>
+        </div>
+        <div class="card" style="text-align: center; padding: 14px;">
+          <div style="font-size: 26px; font-weight: 800; color: #6ee7b7;">3 Roles</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Phân quyền chặt chẽ RBAC</div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">🖥️ Màn Hình Làm Bài Thi</div>
+          <p class="card-desc">Giao diện tối giản hiện đại, đồng hồ đếm ngược theo thời gian thực, bảng điều hướng danh sách câu hỏi nhanh và nút nộp bài an toàn.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">🤖 Quản Trị AI & Duyệt Đề</div>
+          <p class="card-desc">Form tạo câu hỏi bằng AI trực quan; danh sách câu hỏi chờ duyệt (Pending) cho phép sửa nội dung trực tiếp trước khi công bố.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">📈 Thống Kê & Phân Tích Điểm</div>
+          <p class="card-desc">Biểu đồ phổ điểm trực quan, thống kê điểm trung bình, tỷ lệ đạt/trượt và danh sách bài nộp của từng học sinh.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 17: KẾT LUẬN & ĐỊNH HƯỚNG CUỐI KỲ -->
+    <section class="slide" id="slide-17">
+      <div class="slide-tag">16. Tổng Kết & Tương Lai</div>
+      <h2 class="slide-title">Kết Luận & Định Hướng Phát Triển Cuối Kỳ</h2>
+      <p class="slide-subtitle">Đánh giá mức độ hoàn thành và các tính năng mở rộng chuyên sâu cho đồ án cuối kỳ.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title" style="color: #6ee7b7;">
+            <span class="icon">✅</span> Kết Quả Đạt Được Ở Giai Đoạn Giữa Kỳ
+          </div>
+          <ul style="color: var(--text-sub); font-size: 13.5px; line-height: 1.8; padding-left: 20px;">
+            <li>Xây dựng hoàn chỉnh kiến trúc Client-Server với ASP.NET Core và React.</li>
+            <li>Vận dụng thành công các nguyên lý cốt lõi của Lập trình mạng: Giao thức HTTP/HTTPS, bắt tay TCP, phân quyền bảo mật qua JWT Token.</li>
+            <li>Tích hợp thành công Trí tuệ nhân tạo (Google Gemini) giải quyết bài toán thực tế trong giáo dục.</li>
+            <li>Hệ thống chạy mượt mà, phân quyền nghiêm ngặt, xử lý tốt các tình huống ngoại lệ mạng.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="color: #38bdf8;">
+            <span class="icon">🚀</span> Kế Hoạch Nâng Cấp Giai Đoạn Cuối Kỳ
+          </div>
+          <ul style="color: var(--text-sub); font-size: 13.5px; line-height: 1.8; padding-left: 20px;">
+            <li><strong>WebSocket / SignalR Real-time:</strong> Giám sát trực tiếp thí sinh đang làm bài, cảnh báo chuyển tab/gian lận theo thời gian thực.</li>
+            <li><strong>Mở rộng tính năng thi đấu đối kháng (Quiz Battle):</strong> Học sinh thách đấu trực tiếp qua giao thức mạng Socket thời gian thực.</li>
+            <li><strong>Xuất đề thi ra file PDF / Word:</strong> Hỗ trợ in ấn đề thi giấy truyền thống.</li>
+            <li><strong>Triển khai Docker & Cloud (Azure/AWS):</strong> Đưa hệ thống lên môi trường Internet công cộng với chứng chỉ SSL thật.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; text-align: center;">
+        <h3 style="font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 6px;">
+          CẢM ƠN THẦY CÔ VÀ CÁC BẠN ĐÃ LẮNG NGHE!
+        </h3>
+        <p style="color: var(--text-muted); font-size: 14px;">
+          Nhóm sẵn sàng trả lời các câu hỏi phản biện từ Hội đồng đánh giá.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="bottom-bar">
+    <div class="nav-btn-group">
+      <button class="btn-nav" id="btn-prev" onclick="changeSlide(-1)">
+        <span>◀</span> Trang trước
+      </button>
+      <button class="btn-nav btn-primary" id="btn-next" onclick="changeSlide(1)">
+        Trang sau <span>▶</span>
+      </button>
+    </div>
+
+    <div class="key-hints">
+      <span>Dùng phím <span class="key-box">◀</span> <span class="key-box">▶</span> hoặc <span class="key-box">Space</span> để chuyển slide</span>
+      <span>Phím <span class="key-box">F</span> toàn màn hình</span>
+      <span>Phím <span class="key-box">M</span> mở mục lục</span>
+    </div>
+  </footer>
+
+  <!-- Modal Danh Sách Slide -->
+  <div class="modal-overlay" id="slide-modal" onclick="closeModalOnOutside(event)">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-size: 20px; font-weight: 700; color: #fff;">Danh Sách Các Slide Báo Cáo</h3>
+        <button class="btn-icon" onclick="toggleSlideModal()">✕ Đóng</button>
+      </div>
+      <div class="modal-grid" id="modal-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 1;
+
+    const currentSlideNumEl = document.getElementById('current-slide-num');
+    const totalSlideNumEl = document.getElementById('total-slide-num');
+    const progressBar = document.getElementById('progress-bar');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const slideModal = document.getElementById('slide-modal');
+    const modalGrid = document.getElementById('modal-grid');
+
+    totalSlideNumEl.textContent = String(totalSlides).padStart(2, '0');
+
+    // Build modal index list
+    slides.forEach((slide, idx) => {
+      const slideNum = idx + 1;
+      const titleEl = slide.querySelector('.slide-title') || slide.querySelector('h1');
+      const titleText = titleEl ? titleEl.textContent : `Slide ${slideNum}`;
+      
+      const item = document.createElement('div');
+      item.className = `modal-slide-item ${slideNum === 1 ? 'current' : ''}`;
+      item.id = `modal-item-${slideNum}`;
+      item.innerHTML = `
+        <div class="num">Slide ${String(slideNum).padStart(2, '0')}</div>
+        <div class="title">${titleText}</div>
+      `;
+      item.onclick = () => {
+        goToSlide(slideNum);
+        toggleSlideModal();
+      };
+      modalGrid.appendChild(item);
+    });
+
+    function updateSlideUI() {
+      slides.forEach((s, idx) => {
+        if (idx + 1 === currentSlide) {
+          s.classList.add('active');
+          s.scrollTop = 0;
+        } else {
+          s.classList.remove('active');
+        }
+      });
+
+      // Update counters
+      currentSlideNumEl.textContent = String(currentSlide).padStart(2, '0');
+      progressBar.style.width = `${(currentSlide / totalSlides) * 100}%`;
+
+      // Update buttons
+      btnPrev.disabled = currentSlide === 1;
+      btnNext.disabled = currentSlide === totalSlides;
+      if (currentSlide === totalSlides) {
+        btnNext.innerHTML = 'Hoàn thành <span>✓</span>';
+      } else {
+        btnNext.innerHTML = 'Trang sau <span>▶</span>';
+      }
+
+      // Update modal active state
+      document.querySelectorAll('.modal-slide-item').forEach((item, idx) => {
+        if (idx + 1 === currentSlide) {
+          item.classList.add('current');
+        } else {
+          item.classList.remove('current');
+        }
+      });
+    }
+
+    function changeSlide(direction) {
+      const next = currentSlide + direction;
+      if (next >= 1 && next <= totalSlides) {
+        currentSlide = next;
+        updateSlideUI();
+      }
+    }
+
+    function goToSlide(num) {
+      if (num >= 1 && num <= totalSlides) {
+        currentSlide = num;
+        updateSlideUI();
+      }
+    }
+
+    function toggleSlideModal() {
+      slideModal.classList.toggle('open');
+    }
+
+    function closeModalOnOutside(e) {
+      if (e.target === slideModal) {
+        toggleSlideModal();
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.warn(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault();
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        changeSlide(-1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        goToSlide(1);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        goToSlide(totalSlides);
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      } else if (e.key === 'm' || e.key === 'M') {
+        toggleSlideModal();
+      } else if (e.key === 'Escape') {
+        if (slideModal.classList.contains('open')) {
+          toggleSlideModal();
+        }
+      }
+    });
+
+    // Touch swipe support for mobile/tablets
+    let touchStartX = 0;
+    let touchEndX = 0;
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) changeSlide(1);
+      if (touchEndX > touchStartX + 50) changeSlide(-1);
+    }
+
+    // Initialize
+    updateSlideUI();
+  </script>
+</body>
+</html>

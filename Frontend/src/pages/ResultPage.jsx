@@ -55,6 +55,19 @@ export default function ResultPage() {
               </div>
             ))}
           </div>
+
+          {/* Giám sát quy chế thi */}
+          <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center">
+            {result.violationCount > 0 ? (
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">
+                ⚠️ Ghi nhận vi phạm quy chế: Rời màn hình {result.violationCount} lần
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold">
+                🛡️ Giám sát thi: Trung thực, không phát hiện vi phạm
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

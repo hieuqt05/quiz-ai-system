@@ -20,6 +20,8 @@ public class Submission
 
     public int TimeTaken { get; set; } = 0; // seconds
 
+    public int ViolationCount { get; set; } = 0; // Số lần vi phạm quy chế (chuyển tab, chụp màn hình)
+
     public SubmissionStatus Status { get; set; } = SubmissionStatus.IN_PROGRESS;
 
     // Navigation

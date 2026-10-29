@@ -148,7 +148,8 @@ public record SubmitAnswerRequest(
 
 public record SubmitExamRequest(
     [Required] int SubmissionId,
-    [Required] List<SubmitAnswerRequest> Answers
+    [Required] List<SubmitAnswerRequest> Answers,
+    int ViolationCount = 0
 );
 
 public record SubmissionResultDto(
@@ -160,7 +161,8 @@ public record SubmissionResultDto(
     int TimeTaken,
     string Status,
     DateTime SubmittedAt,
-    List<AnswerResultDto> Details
+    List<AnswerResultDto> Details,
+    int ViolationCount = 0
 );
 
 public record AnswerResultDto(

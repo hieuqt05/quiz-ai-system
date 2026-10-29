@@ -239,6 +239,9 @@ namespace QuizApi.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ViolationCount")
+                        .HasColumnType("int");
+
                     b.HasKey("SubmissionId");
 
                     b.HasIndex("ExamId");
@@ -337,7 +340,7 @@ namespace QuizApi.Migrations
                             Email = "admin@quizsystem.com",
                             FullName = "System Administrator",
                             IsActive = true,
-                            PasswordHash = "$2a$11$HZxVrfn4FuLvQ9jhcK5yyuk6PrxkLNqbWKpvGUqz/zTLdT6QlkFwa",
+                            PasswordHash = "$2a$11$Ri.Jb9una4mDtAZHmj/BmeIXOV60QfsMkY1AYNsBdnirum4OIIVXO",
                             Role = "ADMIN",
                             Username = "admin"
                         });
