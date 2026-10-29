@@ -436,3 +436,4 @@ def create_concise_presentation(output_path):
 if __name__ == "__main__":
     out_file = os.path.join(os.path.dirname(__file__), "slide_QuizAI_ngan_gon.pptx")
     create_concise_presentation(out_file)
+

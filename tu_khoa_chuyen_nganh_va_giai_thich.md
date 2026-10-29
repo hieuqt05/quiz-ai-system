@@ -428,3 +428,4 @@ const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
 
 > 🌟 **Lời khuyên vàng khi thuyết trình:**  
 > Đừng cố đọc thuộc lòng tất cả các từ khóa! Khi trình bày Slide, bạn chỉ cần nêu tên từ khóa kèm mục đích của nó. Hãy giữ danh sách này bên cạnh khi **trả lời câu hỏi phản biện của Giảng viên**. Khi thầy cô hỏi xoáy sâu vào kỹ thuật mạng ("CORS là gì?", "Tại sao dùng TCP?", "Chống chuyển tab ra sao?"), bạn chỉ cần lật đúng mục tương ứng ở trên và trả lời gãy gọn – Thầy cô chắc chắn sẽ đánh giá bạn am hiểu kiến thức mạng rất sâu sắc và cho điểm tối đa!
+

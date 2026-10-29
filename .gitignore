@@ -27,3 +27,9 @@ Backend/*.user
 *.sln.docstates
 .DS_Store
 Thumbs.db
+
+# Deployment artifacts
+backend_deploy.zip
+publish_backend/
+cloudflared.exe
+.~lock.*

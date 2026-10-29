@@ -601,3 +601,4 @@ def create_presentation(output_path):
 if __name__ == "__main__":
     out_file = os.path.join(os.path.dirname(__file__), "slide_thuyet_trinh_QuizAI_final.pptx")
     create_presentation(out_file)
+
