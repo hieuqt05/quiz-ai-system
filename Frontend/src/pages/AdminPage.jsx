@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import * as XLSX from 'xlsx';
 import { examApi, aiApi, adminApi } from '../services/api';
 import {
   Shield, Users, BookOpen, Brain, CheckCircle, XCircle, Plus,
@@ -129,51 +130,77 @@ export default function AdminPage() {
     }
   };
 
+  const formatDurationText = (sec) => {
+    if (!sec || sec <= 0) return '0 giây';
+    if (sec < 60) return `${sec} giây`;
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    if (m < 60) return `${m} phút ${s > 0 ? s + ' giây' : ''}`.trim();
+    const h = Math.floor(m / 60);
+    const remM = m % 60;
+    return `${h} giờ ${remM} phút`.trim();
+  };
+
+  const formatDateTimeText = (dateStr) => {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const mins = String(d.getMinutes()).padStart(2, '0');
+    const secs = String(d.getSeconds()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${mins}:${secs}`;
+  };
+
   const handleExportExcel = () => {
     if (!examSubmissions || examSubmissions.length === 0) {
       toast.error('Chưa có lượt nộp bài nào để xuất!');
       return;
     }
 
-    const headers = [
-      'STT',
-      'Mã Bài Nộp',
-      'Thí Sinh (Họ Tên & Tài Khoản)',
-      'Điểm Số (%)',
-      'Số Câu Đúng',
-      'Tổng Số Câu',
-      'Thời Gian Làm (Giây)',
-      'Vi Phạm Quy Chế (Chuyển Tab)',
-      'Thời Điểm Nộp',
-      'Kết Quả'
+    const rows = examSubmissions.map((sub, index) => {
+      const isPass = sub.totalScore >= (selectedExamForStats?.passScore || 50);
+      const violations = sub.violationCount || 0;
+      return {
+        'STT': index + 1,
+        'Mã Bài Nộp': sub.submissionId,
+        'Thí Sinh (Họ Tên & Tài Khoản)': sub.examTitle || 'Thí sinh',
+        'Điểm Số (%)': sub.totalScore,
+        'Số Câu Đúng': sub.correctAnswers,
+        'Tổng Số Câu': sub.totalQuestions,
+        'Thời Gian Làm': formatDurationText(sub.timeTaken),
+        'Giám Sát (Chuyển Tab)': violations > 0 ? `${violations} lần vi phạm` : 'Trung thực (0)',
+        'Thời Điểm Nộp': formatDateTimeText(sub.submittedAt),
+        'Kết Quả': isPass ? 'ĐẠT' : 'CHƯA ĐẠT'
+      };
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+
+    // Cấu hình độ rộng các cột (Tránh triệt để lỗi ### và lỗi chữ bị tràn/che khuất)
+    worksheet['!cols'] = [
+      { wch: 6 },   // STT
+      { wch: 14 },  // Mã Bài Nộp
+      { wch: 32 },  // Thí Sinh (Họ Tên & Tài Khoản)
+      { wch: 14 },  // Điểm Số (%)
+      { wch: 14 },  // Số Câu Đúng
+      { wch: 14 },  // Tổng Số Câu
+      { wch: 22 },  // Thời Gian Làm
+      { wch: 26 },  // Giám Sát (Chuyển Tab)
+      { wch: 24 },  // Thời Điểm Nộp
+      { wch: 14 },  // Kết Quả
     ];
 
-    const rows = examSubmissions.map((sub, index) => [
-      index + 1,
-      sub.submissionId,
-      `"${sub.examTitle || 'Thí sinh'}"`,
-      sub.totalScore,
-      sub.correctAnswers,
-      sub.totalQuestions,
-      sub.timeTaken,
-      sub.violationCount || 0,
-      `"${new Date(sub.submittedAt).toLocaleString('vi-VN')}"`,
-      sub.totalScore >= 50 ? 'ĐẠT' : 'CHƯA ĐẠT'
-    ]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Bảng Điểm');
 
-    const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    const sanitizedTitle = (selectedExamForStats?.title || 'DeThi').replace(/[^a-zA-Z0-9_\u00C0-\u024F\u1E00-\u1EFF]/g, '_');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `BangDiem_${sanitizedTitle}_${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    const sanitizedTitle = (selectedExamForStats?.title || 'DeThi')
+      .replace(/[^a-zA-Z0-9_\u00C0-\u024F\u1E00-\u1EFF]/g, '_');
+    const fileName = `BangDiem_${sanitizedTitle}_${new Date().toISOString().slice(0, 10)}.xlsx`;
 
-    toast.success('Đã xuất bảng điểm Excel (CSV) thành công!');
+    XLSX.writeFile(workbook, fileName);
+    toast.success('Đã xuất file Excel (.xlsx) chuẩn thành công!');
   };
 
   return (
@@ -580,7 +607,7 @@ export default function AdminPage() {
                   className="btn-primary flex items-center gap-2 py-2 px-4 text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <FileSpreadsheet className="w-4 h-4" />
-                  Xuất Bảng Điểm (Excel / CSV)
+                  Xuất Bảng Điểm (Excel .XLSX)
                 </button>
               </div>
 
