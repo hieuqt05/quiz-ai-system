@@ -7,24 +7,25 @@
 
 ---
 
-## 📑 DANH MỤC 16 SLIDE CHUẨN CHECKLIST YÊU CẦU
+## 📑 DANH MỤC 17 SLIDE BÁO CÁO ĐỒ ÁN CUỐI KỲ
 
-1. **Slide 01:** Trang bìa (Tên môn học, Tên đề tài, Giảng viên, Sinh viên thực hiện)
+1. **Slide 01:** Trang bìa (Báo cáo đồ án cuối kỳ • Lập trình mạng)
 2. **Slide 02:** Lý do chọn đề tài & Mục tiêu dự án
 3. **Slide 03:** Thành viên & Phân công công việc
 4. **Slide 04:** Timeline – Kế hoạch & Tiến độ thực hiện
-5. **Slide 05:** Chức năng hệ thống (Phân hệ Học sinh & Quản trị viên)
-6. **Slide 06:** Công nghệ & Kỹ thuật sử dụng (Technology Stack)
+5. **Slide 05:** Chức năng hệ thống (Phân hệ Thí sinh & Quản trị viên/Giáo viên)
+6. **Slide 06:** Ngăn xếp công nghệ toàn diện (Technology Stack)
 7. **Slide 07:** Kiến trúc hệ thống tổng thể (3-Tier & Client-Server Architecture)
-8. **Slide 08:** Cơ chế chạy đa máy (Mạng LAN `0.0.0.0` & Public Internet Pinggy)
+8. **Slide 08:** Cơ chế triển khai mạng (Mạng LAN `0.0.0.0` & Cloud Production Vercel)
 9. **Slide 09:** Giao thức mạng & Mô hình TCP/IP (Tại sao dùng TCP thay vì UDP, Bắt tay 3 bước)
-10. **Slide 10:** Giao thức Web & Cơ chế hoạt động RESTful API
+10. **Slide 10:** Giao thức Web & Kiến trúc RESTful API
 11. **Slide 11:** HTTPS: Cơ chế hoạt động & Bảo mật TLS/SSL (Chống Wireshark)
 12. **Slide 12:** Cơ chế xác thực JWT & Chính sách mạng CORS
 13. **Slide 13:** Hệ thống chống gian lận đa tầng (3 lớp bảo vệ kỳ thi)
-14. **Slide 14:** Luồng dữ liệu chính (Đăng nhập xác thực & Làm bài thi thời gian thực)
-15. **Slide 15:** Kết quả đạt được & Hiệu năng thực nghiệm
-16. **Slide 16:** Kết luận & Định hướng phát triển cuối kỳ
+14. **Slide 14:** Luồng dữ liệu cốt lõi (Xác thực, Làm bài thi & AI sinh đề)
+15. **Slide 15:** Kết quả đạt được & Đo lường hiệu năng thực nghiệm
+16. **Slide 16:** Kết luận đồ án cuối kỳ & Hướng mở rộng tương lai
+17. **Slide 17:** Lời cảm ơn Hội đồng & Thông tin Demo trực tuyến
 
 ---
 
@@ -127,21 +128,23 @@
 
 ---
 
-### SLIDE 08: CƠ CHẾ CHẠY ĐA MÁY (LAN / INTERNET)
+### SLIDE 08: CƠ CHẾ TRIỂN KHAI MẠNG: LAN & CLOUD PRODUCTION
 **Chữ trên Slide:**
 * **1. Mạng LAN (Phòng Lab / Wi-Fi):**
   - Lắng nghe `0.0.0.0`: Bind cổng 5000 & 5173 trên mọi card mạng.
-  - Vite Reverse Proxy: Chuyển tiếp `/api/*` về Backend Kestrel.
-  - Truy cập tức thì: Máy con gõ `http://192.168.x.x:5173`.
+  - Vite Reverse Proxy: Chuyển tiếp ngầm `/api/*` về Backend Kestrel.
+  - Mở Firewall Windows: Lệnh netsh mở port cho các máy con kết nối.
+  - Truy cập tức thì: Học sinh mở `http://192.168.x.x:5173`.
   - Khởi động 1-Click: File `chay_he_thong.bat` tự tìm IP nội bộ.
-* **2. Public Internet (Khác mạng / 4G):**
-  - SSH Reverse Tunnel: Pinggy mã hóa dữ liệu qua cổng 443.
-  - Bỏ qua Firewall: Vượt qua bộ lọc AP Isolation của trường học.
-  - Mã QR tiện lợi: Điện thoại chỉ cần bật camera quét mã để thi.
-  - Bảo mật TLS: Mã hóa End-to-End an toàn tuyệt đối.
+* **2. Cloud Production (Vercel & Cloudflare):**
+  - Tên miền chính thức: `https://quiz-ai-system.vercel.app/`.
+  - CDN Toàn cầu: Vercel Edge Network tải giao diện siêu tốc.
+  - Cloudflare HTTPS Tunnel: Kết nối an toàn không cần mở port modem.
+  - Vượt qua rào cản mạng: Chạy mượt mà trên 4G/5G và mạng ngoài trường.
+  - CI/CD Tự động: Commit code lên GitHub tự động cập nhật hệ thống.
 
 🗣️ **Lời thoại thuyết trình gợi ý (45 giây):**
-> "Điểm sáng của đề tài là khả năng chạy đa máy trong thực tế: Server được cấu hình bind vào IP đại diện `0.0.0.0`, cho phép mọi thiết bị trong mạng Wi-Fi truy cập thẳng qua IP LAN của máy chủ. Đặc biệt, đối với các mạng bị chặn kết nối nội bộ như Wi-Fi trường học có bật AP Isolation, hệ thống tích hợp sẵn kênh truyền SSH Reverse Tunnel, cấp một đường link HTTPS công khai kèm mã QR để các máy ở xa hay dùng 4G đều vào thi được ngay mà không cần mở port modem."
+> "Điểm sáng của đề tài là khả năng triển khai linh hoạt ở cả hai môi trường: Ở môi trường nội bộ, server bind vào IP `0.0.0.0` để phục vụ phòng máy trường học với độ trễ tối thiểu. Đồng thời, nhóm đã đưa thành công hệ thống lên đám mây Production tại địa chỉ `https://quiz-ai-system.vercel.app/` kết hợp cùng đường hầm bảo mật Cloudflare. Điều này giúp hệ thống hoạt động thông suốt trên toàn bộ thiết bị di động, mạng 4G/5G từ xa mà hoàn toàn không phụ thuộc vào việc cấu hình mạng hay mở cổng modem."
 
 ---
 
@@ -228,49 +231,56 @@
 
 ---
 
-### SLIDE 14: LUỒNG DỮ LIỆU CHÍNH CỦA HỆ THỐNG
-**Chữ trên Slide (2 Khối luồng dữ liệu):**
-* **Luồng 1 (Đăng nhập & Xác thực):**
-  1. Client gửi `POST /api/auth/login` kèm thông tin đăng nhập.
-  2. Server kiểm tra Username & so khớp mã băm mật khẩu BCrypt.
-  3. Server tạo chuỗi JWT Token có chữ ký số -> Trả về Client.
-  4. Client lưu Token vào LocalStorage và phân hướng theo Role.
-* **Luồng 2 (Làm bài thi & Chấm điểm):**
-  1. Bắt đầu: `POST /api/submissions/start` -> Nhận đề & Server Time.
-  2. Làm bài: Trộn ngẫu nhiên câu hỏi & Auto-Save vào LocalStorage.
-  3. Giám sát: Ghi nhận vi phạm chuyển tab (Tối đa 3 lần).
-  4. Nộp bài: `POST /api/submissions/submit` -> Chấm điểm & hiện giải thích.
+### SLIDE 14: LUỒNG DỮ LIỆU CỐT LÕI (DATA FLOW)
+**Chữ trên Slide (3 Cột):**
+* **Luồng 1 (Xác thực):** 1. Gửi `POST /auth/login` • 2. So khớp BCrypt Hash • 3. Ký số JWT Token • 4. Lưu vào LocalStorage • 5. Phân quyền Admin/User.
+* **Luồng 2 (Thi & Chấm điểm):** 1. Bắt đầu: Nhận đề thi • 2. Client: Trộn đề & Auto-Save • 3. Giám sát: Đếm chuyển tab • 4. Nộp bài: Gửi danh sách chọn • 5. Chấm điểm & hiện giải thích.
+* **Luồng 3 (AI Sinh đề thi):** 1. Giáo viên nhập chủ đề/tài liệu • 2. Backend gửi Prompt tới Gemini • 3. Nhận phản hồi JSON câu hỏi • 4. Giáo viên duyệt & chỉnh sửa • 5. Lưu vào ngân hàng CSDL.
+
+🗣️ **Lời thoại thuyết trình gợi ý (45 giây):**
+> "Về mặt luồng dữ liệu, hệ thống chia làm 3 quy trình chính: Ở luồng xác thực, mật khẩu được kiểm tra qua hàm băm BCrypt có muối trước khi server cấp JWT Token có chữ ký số. Ở luồng làm bài thi, client nhận đề thi và đồng bộ thời gian theo server, câu hỏi được xáo trộn ngẫu nhiên và lưu tạm vào LocalStorage để chống mất mạng. Và ở luồng tạo đề, giáo viên chỉ cần nhập tài liệu hoặc chủ đề, backend sẽ gọi Gemini API để nhận về cấu trúc JSON câu hỏi, giáo viên có toàn quyền kiểm duyệt trước khi lưu vào ngân hàng đề thi."
+
+---
+
+### SLIDE 15: KẾT QUẢ ĐẠT ĐƯỢC & ĐO LƯỜNG HIỆU NĂNG
+**Chữ trên Slide (4 Khối số liệu & 1 Bảng điểm nhấn):**
+* **`< 120 ms`:** Tốc độ phản hồi API trung bình qua giao thức HTTP/HTTPS.
+* **`3 - 5 giây`:** Gemini AI sinh hoàn chỉnh 10-20 câu hỏi kèm 4 đáp án & giải thích.
+* **`100%`:** Bảo toàn dữ liệu bài làm khi rớt mạng Wi-Fi hoặc F5 tải lại trang.
+* **`Chuẩn .XLSX`:** Xuất bảng điểm Excel tự căn chỉnh độ rộng cột, triệt tiêu lỗi `###`.
+* **Điểm nổi bật:** Chạy thực tế trên đám mây Production `https://quiz-ai-system.vercel.app/`, hỗ trợ đa thiết bị an toàn, 100% mã nguồn đồng bộ trên GitHub.
 
 🗣️ **Lời thoại thuyết trình gợi ý (40 giây):**
-> "Về mặt luồng dữ liệu, mọi hoạt động đều diễn ra chặt chẽ: Ở luồng đăng nhập, mật khẩu được kiểm tra qua hàm băm BCrypt có muối trước khi server cấp token JWT. Ở luồng làm bài thi, client nhận đề thi và đồng bộ thời gian theo giờ server, câu hỏi được xáo trộn ngẫu nhiên và lưu tạm vào LocalStorage để chống mất mạng. Khi kết thúc, gói tin nộp bài được server đối chiếu đáp án, tính điểm phần trăm và lưu vết số lần vi phạm của thí sinh."
+> "Kết quả đo lường thực tế chứng minh hiệu năng vượt trội: Độ trễ phản hồi API trung bình dưới 120ms, AI tạo bộ đề hoàn chỉnh chỉ trong 3 đến 5 giây. Khả năng bảo toàn dữ liệu khi giả lập ngắt mạng đạt 100%. Bảng điểm xuất ra file Excel .XLSX tự động căn chỉnh kích thước cột hoàn hảo. Đặc biệt, hệ thống đã chạy ổn định trên môi trường đám mây Production tại địa chỉ quiz-ai-system.vercel.app cho phép bất kỳ ai cũng có thể truy cập thi thử trực tiếp."
 
 ---
 
-### SLIDE 15: KẾT QUẢ ĐẠT ĐƯỢC & HIỆU NĂNG THỰC TẾ
-**Chữ trên Slide (4 Khối số liệu lớn):**
-* **`< 120 ms`:** Tốc độ phản hồi API trung bình qua giao thức HTTP.
-* **`3 - 5 giây`:** Gemini AI sinh hoàn chỉnh 10 câu hỏi kèm giải thích.
-* **`100%`:** Bảo toàn dữ liệu khi rớt mạng Wi-Fi hoặc F5 tải lại trang.
-* **`Chuẩn .XLSX`:** Xuất bảng điểm Excel độ rộng chuẩn, triệt tiêu lỗi `###`.
-* *100% các tính năng hoạt động ổn định trên cả máy tính và điện thoại thông minh.*
-
-🗣️ **Lời thoại thuyết trình gợi ý (35 giây):**
-> "Kết quả thực nghiệm cho thấy hệ thống vận hành cực kỳ mượt mà: Độ trễ phản hồi API trung bình dưới 120ms, thời gian AI tạo bộ đề chỉ từ 3 đến 5 giây. Khả năng bảo toàn dữ liệu khi giả lập ngắt mạng đạt 100%. Đặc biệt, tính năng xuất bảng điểm đã được nâng cấp lên chuẩn file Excel .XLSX với độ rộng cột tự động, khắc phục hoàn toàn lỗi hiển thị dấu thăng hay che khuất chữ của các định dạng CSV cũ."
-
----
-
-### SLIDE 16: KẾT LUẬN & ĐỊNH HƯỚNG PHÁT TRIỂN
+### SLIDE 16: KẾT LUẬN & HƯỚNG MỞ RỘNG TƯƠNG LAI
 **Chữ trên Slide:**
 * **Kết Luận Đạt Được:**
-  - Hoàn thành trọn vẹn kiến trúc mạng Client-Server.
-  - Vận dụng xuất sắc các giao thức TCP/IP, HTTP, HTTPS & JWT.
-  - Giải quyết triệt để vấn đề gian lận và rớt mạng khi thi cử.
-  - Ứng dụng thực tiễn cao: Sẵn sàng dùng cho lớp học và kỳ thi.
-* **Định Hướng Cuối Kỳ:**
+  - Hoàn thành trọn vẹn kiến trúc mạng Client-Server 3 tầng chuẩn chỉ.
+  - Vận dụng xuất sắc kiến thức: TCP/IP, HTTP/HTTPS, REST, CORS & JWT.
+  - Giải quyết triệt để vấn đề gian lận thi cử và mất bài khi rớt mạng.
+  - Tích hợp thành công GenAI Gemini tạo đề thi thông minh tự động.
+  - Triển khai thành công lên môi trường đám mây Vercel Production.
+* **Hướng Phát Triển Tương Lai:**
   - WebSocket / SignalR: Chế độ thi đấu đối kháng trực tiếp (Kahoot Mode).
-  - AI Camera: Giám sát nhận diện khuôn mặt qua webcam.
-  - Docker Container: Đóng gói toàn bộ Backend & DB vào Container.
-  - Cloud Deployment: Triển khai lên máy chủ đám mây với tên miền riêng.
+  - AI Camera Proctoring: Nhận diện khuôn mặt & phát hiện quay cóp qua webcam.
+  - Mobile Application: Đóng gói app đa nền tảng Flutter / React Native.
+  - Microservices Architecture: Tách riêng dịch vụ AI Generator và Auth Service.
+  - Database Clustering: Nhân bản CSDL tăng khả năng chịu tải hàng nghìn thí sinh.
 
-🗣️ **Lời thoại thuyết trình gợi ý (35 giây):**
-> "Tóm lại, dự án QuizAI đã hiện thực hóa trọn vẹn các kiến thức cốt lõi của môn Lập trình mạng thành một sản phẩm có tính ứng dụng cao trong giáo dục. Hướng phát triển cho giai đoạn cuối kỳ, nhóm sẽ nâng cấp giao thức truyền thông hai chiều thời gian thực bằng WebSockets và SignalR để xây dựng chế độ thi đấu đối kháng trực tiếp, đồng thời đóng gói Docker và đưa hệ thống lên máy chủ đám mây. Nhóm em xin chân thành cảm ơn Thầy/Cô và các bạn đã lắng nghe!"
+🗣️ **Lời thoại thuyết trình gợi ý (40 giây):**
+> "Tóm lại, dự án QuizAI đã hiện thực hóa trọn vẹn mục tiêu của môn học Lập trình mạng thành một sản phẩm có tính ứng dụng cao trong giáo dục và thi cử trực tuyến. Trong tương lai, nhóm dự kiến sẽ mở rộng giao thức hai chiều thời gian thực với WebSocket và SignalR để phát triển chế độ thi đối kháng như Kahoot, đồng thời tích hợp webcam AI để nhận diện khuôn mặt thí sinh theo thời gian thực."
+
+---
+
+### SLIDE 17: Q&A / CẢM ƠN HỘI ĐỒNG & GIẢNG VIÊN
+**Chữ trên Slide:**
+* **LỜI CẢM ƠN:** Cảm Ơn Quý Thầy Cô & Hội Đồng Đã Lắng Nghe!
+* **Hệ thống trực tuyến:** `https://quiz-ai-system.vercel.app/`
+* **Mã nguồn dự án:** `https://github.com/hieuqt05/quiz-ai-system`
+* *Nhóm xin sẵn sàng lắng nghe nhận xét và trả lời các câu hỏi từ Hội Đồng!*
+
+🗣️ **Lời thoại thuyết trình gợi ý (20 giây):**
+> "Dưới đây là link trải nghiệm trực tuyến của hệ thống và toàn bộ mã nguồn trên GitHub. Nhóm em xin chân thành cảm ơn Quý Thầy/Cô và Hội đồng đã chú ý lắng nghe bài báo cáo. Nhóm em rất mong nhận được những góp ý quý báu và xin sẵn sàng trả lời các câu hỏi từ Thầy/Cô!"
