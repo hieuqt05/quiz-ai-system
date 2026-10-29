@@ -319,7 +319,7 @@ export default function QuizPage() {
         toast('Chuột phải đã bị khóa để bảo mật đề thi!', { icon: '🛡️' });
       }}
       className="max-w-4xl mx-auto px-4 py-6 relative select-none"
-      style={{ WebkitUserSelect: 'none', userSelect: 'none' }}
+      style={{ WebkitUserSelect: 'none', userSelect: 'none', WebkitTouchCallout: 'none' }}
     >
       {/* Màn hình chớp đen khi phát hiện PrintScreen */}
       {isScreenBlanks && (
@@ -328,14 +328,14 @@ export default function QuizPage() {
         </div>
       )}
 
-      {/* WATERMARK CHỐNG CHỤP MÀN HÌNH BẰNG ĐIỆN THOẠI */}
+      {/* WATERMARK CHỐNG CHỤP MÀN HÌNH / CHỤP CAMERA BẰNG ĐIỆN THOẠI */}
       <div
-        className="fixed inset-0 pointer-events-none z-10 opacity-[0.035] flex flex-wrap content-around justify-around overflow-hidden select-none"
+        className="fixed inset-0 pointer-events-none z-10 opacity-[0.07] flex flex-wrap content-around justify-around overflow-hidden select-none"
         aria-hidden="true"
       >
         {Array.from({ length: 24 }).map((_, idx) => (
-          <div key={idx} className="transform -rotate-45 text-sm font-bold text-slate-900 tracking-wider p-6">
-            {currentUser.fullName} • {currentUser.username} • QuizAI Secure
+          <div key={idx} className="transform -rotate-45 text-sm font-bold text-slate-400 tracking-wider p-6">
+            {currentUser?.fullName || 'Thí sinh'} • @{currentUser?.username || 'user'} • QuizAI #{submissionId}
           </div>
         ))}
       </div>
