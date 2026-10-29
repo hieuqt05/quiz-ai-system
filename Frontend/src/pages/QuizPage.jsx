@@ -264,10 +264,22 @@ export default function QuizPage() {
       toast.error('Không được phép sao chép nội dung đề thi!', { icon: '🛡️' });
     };
 
+    // Phát hiện mở DevTools / Console qua chênh lệch kích thước cửa sổ
+    const checkDevTools = () => {
+      const threshold = 160;
+      const widthDiff = window.outerWidth - window.innerWidth > threshold;
+      const heightDiff = window.outerHeight - window.innerHeight > threshold;
+      if (widthDiff || heightDiff) {
+        toast.error('CẢNH BÁO: Phát hiện cửa sổ DevTools/Console đang mở!', { icon: '🚨' });
+      }
+    };
+    const devToolsInterval = setInterval(checkDevTools, 2000);
+
     window.addEventListener('keydown', handleKeyDown);
     document.addEventListener('copy', handleCopy);
 
     return () => {
+      clearInterval(devToolsInterval);
       window.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('copy', handleCopy);
     };
