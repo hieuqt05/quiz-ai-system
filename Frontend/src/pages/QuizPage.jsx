@@ -184,9 +184,9 @@ export default function QuizPage() {
       sessionStorage.setItem(`quiz_violations_${submissionId}`, next.toString());
       setViolationCount(next);
 
-      if (next > MAX_ALLOWED_WARNINGS) {
-        // Vi phạm vượt quá 3 lần (đến lần thứ 4) -> Tự động nộp bài và thu hồi bài thi
-        toast.error('BẠN ĐÃ VI PHẠM QUY CHẾ QUÁ 3 LẦN! HỆ THỐNG TỰ ĐỘNG THU HỒI BÀI THI!', {
+      if (next >= 3) {
+        // Vi phạm lần thứ 3 -> Tự động thu hồi bài thi và nộp ngay lập tức
+        toast.error('BẠN ĐÃ VI PHẠM QUY CHẾ ĐỦ 3 LẦN! BÀI THI BỊ TỰ ĐỘNG THU HỒI VÀ CHẤM ĐIỂM!', {
           duration: 8000,
           icon: '🚨'
         });
@@ -194,7 +194,7 @@ export default function QuizPage() {
       } else {
         setViolationModal({
           count: next,
-          max: MAX_ALLOWED_WARNINGS,
+          max: 3,
           reason: reason || 'Rời khỏi màn hình làm bài thi (Chuyển tab / Mở ứng dụng khác)'
         });
       }
@@ -355,14 +355,12 @@ export default function QuizPage() {
 
             <div className="p-3 bg-red-50 rounded-xl border border-red-200 mb-6">
               <div className="text-sm font-medium text-red-800">
-                Số lần vi phạm: <span className="text-lg font-black text-red-600">{violationModal.count}</span> / {violationModal.max}
+                Số lần vi phạm: <span className="text-lg font-black text-red-600">{violationModal.count}</span> / 3
               </div>
               <p className="text-xs text-red-500 mt-1 font-medium">
-                {violationModal.count >= violationModal.max
-                  ? '🚨 NGUY CẤP: Bạn đã dùng hết 3 lần cảnh báo (3/3)! Nếu rời màn hình thêm 1 lần nữa, bài thi sẽ bị TỰ ĐỘNG THU HỒI VÀ CHẤM ĐIỂM NGAY LẬP TỨC!'
-                  : violationModal.count === 2
-                  ? '⚠️ CẢNH BÁO: Bạn chỉ còn 1 lần cơ hội duy nhất trước khi bài thi bị tự động thu hồi!'
-                  : 'Nghiêm cấm chuyển tab, mở tài liệu hoặc chia sẻ màn hình trong lúc làm bài (Còn 2 cơ hội).'}
+                {violationModal.count === 2
+                  ? '🚨 CẢNH BÁO CUỐI CÙNG (2/3): Bạn đã vi phạm 2 lần! Nếu rời màn hình thêm 1 lần nữa (Lần 3), bài thi sẽ bị TỰ ĐỘNG THU HỒI VÀ HỦY KẾT QUẢ NGAY LẬP TỨC!'
+                  : '⚠️ CẢNH BÁO LẦN 1/3: Nghiêm cấm chuyển tab, mở tài liệu hoặc chia sẻ màn hình trong lúc làm bài! (Đến lần thứ 3 sẽ bị thu hồi bài thi)'}
               </p>
             </div>
 
