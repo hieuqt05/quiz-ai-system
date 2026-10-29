@@ -1,252 +1,276 @@
-# NỘI DUNG SLIDE VÀ KỊCH BẢN THUYẾT TRÌNH GIỮA KỲ
+# NỘI DUNG SLIDE VÀ KỊCH BẢN THUYẾT TRÌNH BÁO CÁO ĐỒ ÁN
 ## Môn học: LẬP TRÌNH MẠNG
-## Đề tài: QuizAI – Hệ Thống Trắc Nghiệm Online Tích Hợp Trí Tuệ Nhân Tạo
+## Đề tài: QuizAI – Hệ Thống Trắc Nghiệm Online Tích Hợp AI & Giám Sát Thi Đa Máy
+
+> 📁 **File PowerPoint trình chiếu chuẩn:** [`slide_thuyet_trinh_QuizAI_final.pptx`](file:///h:/Antigravity/Laptrinhmang/slide_thuyet_trinh_QuizAI_final.pptx)  
+> 💡 **Đặc điểm thiết kế:** Slide được thiết kế theo phong cách **tối giản (Minimalist), cực kỳ ít chữ**, tập trung vào từ khóa in đậm và thẻ thông tin. Người thuyết trình sẽ dựa vào kịch bản lời thoại chi tiết bên dưới để diễn giải chuyên sâu, gây ấn tượng mạnh với Hội đồng Giảng viên.
 
 ---
 
-> 💡 **File trình chiếu trực tiếp:** Mở file [`slide_thuyet_trinh.html`](file:///h:/Antigravity/Laptrinhmang/slide_thuyet_trinh.html) trên trình duyệt Chrome/Edge/Cốc Cốc để trình chiếu toàn màn hình (nhấn phím `F`). Bạn cũng có thể nhấn nút **"In / PDF"** để xuất ra file PDF nộp cho giáo viên!
-
----
-
-## 📑 DANH MỤC 17 SLIDE THEO CHECKLIST YÊU CẦU
+## 📑 DANH MỤC 16 SLIDE CHUẨN CHECKLIST YÊU CẦU
 
 1. **Slide 01:** Trang bìa (Tên môn học, Tên đề tài, Giảng viên, Sinh viên thực hiện)
 2. **Slide 02:** Lý do chọn đề tài & Mục tiêu dự án
 3. **Slide 03:** Thành viên & Phân công công việc
 4. **Slide 04:** Timeline – Kế hoạch & Tiến độ thực hiện
-5. **Slide 05:** Phác thảo thiết kế AI & Prompt Engineering
-6. **Slide 06:** Chức năng hệ thống (Học sinh, Giáo viên, Quản trị viên)
-7. **Slide 07:** Ngăn xếp công nghệ sử dụng (Technology Stack)
-8. **Slide 08:** Kiến trúc hệ thống tổng thể (3-Tier & Client-Server Architecture)
-9. **Slide 09:** Các giao thức mạng áp dụng (Mô hình TCP/IP, TCP 3-Way Handshake)
+5. **Slide 05:** Chức năng hệ thống (Phân hệ Học sinh & Quản trị viên)
+6. **Slide 06:** Công nghệ & Kỹ thuật sử dụng (Technology Stack)
+7. **Slide 07:** Kiến trúc hệ thống tổng thể (3-Tier & Client-Server Architecture)
+8. **Slide 08:** Cơ chế chạy đa máy (Mạng LAN `0.0.0.0` & Public Internet Pinggy)
+9. **Slide 09:** Giao thức mạng & Mô hình TCP/IP (Tại sao dùng TCP thay vì UDP, Bắt tay 3 bước)
 10. **Slide 10:** Giao thức Web & Cơ chế hoạt động RESTful API
-11. **Slide 11:** HTTPS: Cơ chế hoạt động & Bảo mật TLS/SSL
+11. **Slide 11:** HTTPS: Cơ chế hoạt động & Bảo mật TLS/SSL (Chống Wireshark)
 12. **Slide 12:** Cơ chế xác thực JWT & Chính sách mạng CORS
-13. **Slide 13:** Luồng dữ liệu 1: Đăng nhập & Xác thực tài khoản
-14. **Slide 14:** Luồng dữ liệu 2: Tự động sinh câu hỏi bằng AI
-15. **Slide 15:** Luồng dữ liệu 3: Làm bài thi & Chấm điểm thời gian thực
-16. **Slide 16:** Kết quả đạt được & Giao diện thực tế
-17. **Slide 17:** Kết luận & Định hướng phát triển cuối kỳ
+13. **Slide 13:** Hệ thống chống gian lận đa tầng (3 lớp bảo vệ kỳ thi)
+14. **Slide 14:** Luồng dữ liệu chính (Đăng nhập xác thực & Làm bài thi thời gian thực)
+15. **Slide 15:** Kết quả đạt được & Hiệu năng thực nghiệm
+16. **Slide 16:** Kết luận & Định hướng phát triển cuối kỳ
 
 ---
 
-# CHI TIẾT NỘI DUNG VÀ LỜI THOẠI TỪNG SLIDE (SPEAKER NOTES)
+# CHI TIẾT NỘI DUNG SLIDE & LỜI THOẠI THUYẾT TRÌNH (SPEAKER NOTES)
 
 ---
 
 ### SLIDE 01: TRANG BÌA
-- **Tiêu đề:** QuizAI – HỆ THỐNG TRẮC NGHIỆM ONLINE TÍCH HỢP TRÍ TUỆ NHÂN TẠO
-- **Môn:** Lập Trình Mạng
-- **Sinh viên thực hiện:** Nguyễn Văn Tèo & Nhóm
-- **GitHub:** https://github.com/hieuqt05/quiz-ai-system
+**Chữ trên Slide (Rất ít chữ):**
+* **BÁO CÁO ĐỒ ÁN • MÔN LẬP TRÌNH MẠNG**
+* **QuizAI – Hệ Thống Trắc Nghiệm Online Tích Hợp AI & Giám Sát Thi Đa Máy**
+* *Client-Server • RESTful API • TCP/IP • Xác Thực JWT • Chống Gian Lận 3 Lớp*
+* Giảng viên hướng dẫn: Bộ môn Lập Trình Mạng | Sinh viên thực hiện: Nhóm QuizAI
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Kính chào Thầy/Cô và các bạn. Hôm nay, nhóm em xin phép được báo cáo tiến độ đồ án giữa kỳ môn Lập trình mạng với đề tài: **QuizAI – Hệ thống trắc nghiệm online tích hợp trí tuệ nhân tạo**. Đề tài này được nhóm xây dựng nhằm áp dụng thực tiễn các kiến thức mạng máy tính như mô hình Client-Server, giao thức truyền tin TCP, kiến trúc RESTful API, giao thức bảo mật HTTPS/TLS và cơ chế xác thực JWT, đồng thời kết hợp mô hình AI Gemini để giải quyết bài toán tự động hóa đề thi."
+🗣️ **Lời thoại thuyết trình gợi ý (35 giây):**
+> "Kính chào Thầy/Cô và các bạn. Hôm nay, nhóm em xin phép được báo cáo đồ án môn Lập trình mạng với đề tài: **QuizAI – Hệ thống trắc nghiệm trực tuyến tích hợp trí tuệ nhân tạo và giám sát thi đa máy**. Dự án này được chúng em xây dựng nhằm áp dụng thực tiễn các kiến thức mạng máy tính cốt lõi như mô hình Client-Server, giao thức truyền tin tin cậy TCP, kiến trúc RESTful API, bảo mật HTTPS và xác thực phi trạng thái JWT, đồng thời tích hợp mô hình GenAI Gemini để tự động hóa ngân hàng đề thi."
 
 ---
 
 ### SLIDE 02: LÝ DO CHỌN ĐỀ TÀI & MỤC TIÊU
-- **Thực trạng:**
-  - Giáo viên mất nhiều thời gian biên soạn ngân hàng câu hỏi thủ công.
-  - Các hệ thống thi trắc nghiệm cũ thiếu tính năng tự động hóa và thiếu giải thích chi tiết đáp án.
-  - Đòi hỏi đường truyền ổn định, tin cậy cao, không được mất mát gói tin khi nộp bài.
-- **Giải pháp (QuizAI):**
-  - Tích hợp Google Gemini AI tự động sinh câu hỏi từ chủ đề hoặc bài giảng.
-  - Xây dựng Web API RESTful đa luồng, độ trễ thấp.
-  - Áp dụng các chuẩn an ninh mạng (HTTPS, BCrypt, JWT).
+**Chữ trên Slide:**
+* **Thực trạng & Vấn đề:**
+  - Soạn đề thủ công: Tốn thời gian, khó đa dạng hóa câu hỏi.
+  - Gian lận trực tuyến: Chuyển tab tra Google, nhờ ChatGPT giải hộ.
+  - Nhìn bài thi: Thí sinh ngồi cạnh nhau có cùng đề và vị trí đáp án.
+  - Rủi ro đường truyền: Rớt mạng Wi-Fi làm mất dữ liệu bài thi đang làm dở.
+* **Mục tiêu QuizAI:**
+  - Gemini AI: Tự động sinh bộ đề 10-30 câu chuẩn xác trong 3-5 giây.
+  - Chống gian lận 3 lớp: Bắt chuyển tab (3 lần nộp bài), chặn PrintScreen/DevTools.
+  - Trộn đề ngẫu nhiên: Đảo vị trí câu hỏi & 4 đáp án A, B, C, D cho từng máy.
+  - Auto-Save Real-time: Bảo toàn dữ liệu 100% khi rớt mạng hoặc sập nguồn.
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Về lý do chọn đề tài, xuất phát từ thực tế công tác giáo dục hiện nay: việc biên soạn đề thi trắc nghiệm đòi hỏi rất nhiều thời gian và công sức. Nhóm nhận thấy tiềm năng to lớn của các mô hình GenAI như Gemini trong việc tạo sinh nội dung câu hỏi. Đặc biệt, dưới góc độ môn Lập trình mạng, một hệ thống thi online đặt ra yêu cầu rất cao về sự tin cậy trong truyền thông dữ liệu: không được phép thất lạc câu trả lời của thí sinh, bảo mật đề thi chống nghe lén và cơ chế đồng bộ thời gian thực giữa máy khách và máy chủ."
+🗣️ **Lời thoại thuyết trình gợi ý (40 giây):**
+> "Xuất phát từ thực tế thi cử trực tuyến, nhóm nhận thấy 3 vấn đề nhức nhối: Thứ nhất, giáo viên mất nhiều công sức biên soạn đề thi; Thứ hai, học sinh rất dễ gian lận bằng cách chuyển tab hoặc nhìn bài bạn bên cạnh; Thứ ba, đường truyền mạng chập chờn có thể làm mất trắng kết quả thi của thí sinh. Mục tiêu của QuizAI là giải quyết triệt để các rào cản này bằng AI tạo đề tự động, hệ thống giám sát chống gian lận đa tầng và cơ chế tự phục hồi dữ liệu khi rớt mạng."
 
 ---
 
 ### SLIDE 03: THÀNH VIÊN & PHÂN CÔNG CÔNG VIỆC
-- **Nguyễn Văn Tèo (Trưởng nhóm):** Thiết kế kiến trúc tổng thể, Backend REST API, Database EF Core, quản lý luồng dữ liệu & mạng.
-- **Thành viên 02 (Frontend Dev):** Xây dựng giao diện React SPA, đếm ngược thời gian, responsive TailwindCSS, xử lý HTTP Axios.
-- **Thành viên 03 (AI Integration):** Tích hợp Google Gemini API, Prompt Engineering, cơ chế Retry & Exponential Backoff.
-- **Thành viên 04 (Testing & Network Analysis):** Bắt gói tin Wireshark, kiểm thử tải API, tài liệu kỹ thuật & slide.
+**Chữ trên Slide (3 Cột):**
+* **Backend & Network:** Xây dựng ASP.NET Core 9 API • Cấu hình TCP/IP, CORS & Port 0.0.0.0 • Tích hợp Gemini AI & JWT Auth • Thiết kế Database SQL Server.
+* **Frontend & UI/UX:** Phát triển giao diện React 19 SPA • Thiết kế Dark Mode với TailwindCSS • Xử lý Auto-Save & Trộn đề ngẫu nhiên • Bảng thống kê & Xuất Excel (.xlsx).
+* **Security & Testing:** Lập trình module Chống gian lận 3 lớp • Thiết lập SSH Tunnel (Pinggy / QR) • Kiểm thử chịu lỗi mạng & Stress test • Đóng gói tài liệu & Slide thuyết trình.
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Về phân công công việc, nhóm đã phân chia rõ ràng các mảng: bạn phụ trách kiến trúc mạng và backend API, bạn phụ trách phía client giao diện người dùng, bạn chuyên trách việc kết nối API trí tuệ nhân tạo bên thứ ba và bạn phụ trách kiểm thử bắt gói tin cũng như lập tài liệu."
+🗣️ **Lời thoại thuyết trình gợi ý (30 giây):**
+> "Để dự án đạt hiệu quả cao nhất, nhóm phân chia công việc theo đúng các tầng kiến trúc mạng: Mảng Backend đảm nhiệm việc xử lý luồng dữ liệu, cấu hình mạng và kết nối AI; Mảng Frontend chịu trách nhiệm về giao diện SPA, cơ chế tự động lưu và xuất báo cáo điểm; Mảng Bảo mật và Kiểm thử phụ trách việc giám sát chống gian lận và thử nghiệm kết nối đa máy."
 
 ---
 
 ### SLIDE 04: TIMELINE – KẾ HOẠCH & TIẾN ĐỘ THỰC HIỆN
-- **Tuần 1 - 2:** Khảo sát yêu cầu, thiết kế Database ERD (7 bảng) & thiết kế Endpoints.
-- **Tuần 3 - 4:** Lập trình Backend ASP.NET Core 9, bảo mật JWT Bearer, mã hóa mật khẩu BCrypt.
-- **Tuần 5 - 6:** Tích hợp Gemini AI, xây dựng Frontend React + Vite, hoàn thiện trang làm bài thi.
-- **Tuần 7:** Kiểm thử mạng, bắt gói tin HTTP/HTTPS, kiểm thử xử lý sự cố rớt mạng.
-- **Tuần 8 (Hiện tại):** Báo cáo giữa kỳ, chuẩn bị kế hoạch phát triển cuối kỳ.
+**Chữ trên Slide (4 Khối mốc thời gian):**
+* **Giai đoạn 1 (Thiết kế):** Phân tích yêu cầu • Sơ đồ mạng • Thiết kế CSDL ERD • Chuẩn hóa RESTful API.
+* **Giai đoạn 2 (Lập trình):** Viết Backend Web API • Viết Frontend React SPA • Tích hợp Gemini GenAI • Mã hóa BCrypt.
+* **Giai đoạn 3 (Nâng cấp):** Mạng LAN & Tunneling • Anti-Cheat 3 lớp bảo vệ • Auto-Save & Trộn đề • Xuất báo cáo Excel .xlsx.
+* **Giai đoạn 4 (Hoàn thiện):** Kiểm thử tải đa máy • Viết tài liệu đồ án • Đồng bộ mã nguồn GitHub • Sẵn sàng nghiệm thu.
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Về tiến độ, nhóm đã bám sát lộ trình 5 giai đoạn: từ khảo sát thiết kế cơ sở dữ liệu và các luồng mạng, cho đến xây dựng API, tích hợp AI, kiểm thử độ ổn định truyền thông và hiện tại nhóm đã hoàn thành 100% mục tiêu giai đoạn giữa kỳ."
-
----
-
-### SLIDE 05: PHÁC THẢO THIẾT KẾ AI & PROMPT ENGINEERING
-- **Model:** Google Gemini Flash (`gemini-3.8-flash`) qua REST API.
-- **Prompt:** Thiết lập System Instructions ràng buộc nghiêm ngặt chỉ trả về JSON hợp lệ (Không trả markdown).
-- **Cấu trúc sinh câu hỏi:** Tiêu đề câu hỏi, 4 đáp án (A, B, C, D), đáp án đúng, giải thích chi tiết (`explanation`), độ khó.
-- **Human-in-the-Loop:** AI sinh -> Lưu DB trạng thái `PENDING` -> Giáo viên duyệt `APPROVED` mới đưa vào đề thi.
-- **Xử lý sự cố mạng:** Exponential Backoff Retry (thử lại 3 lần nếu gặp lỗi mạng 429/503).
-
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Điểm sáng tạo của hệ thống là khả năng tạo đề bằng AI. Tuy nhiên, AI có thể sinh thông tin chưa chuẩn (hallucination). Vì vậy, nhóm thiết kế theo mô hình Human-in-the-Loop: khi giáo viên yêu cầu, AI sinh câu hỏi nhưng sẽ được lưu ở trạng thái chờ duyệt (Pending). Giáo viên kiểm tra, tinh chỉnh rồi mới phê duyệt đưa vào ngân hàng đề thi. Đồng thời hệ thống có cơ chế Exponential Backoff để chống lỗi nghẽn mạng hoặc quá tải API."
+🗣️ **Lời thoại thuyết trình gợi ý (30 giây):**
+> "Quy trình phát triển của nhóm bám sát mô hình phát triển phần mềm chuẩn: Khởi đầu từ việc phân tích sơ đồ mạng và thiết kế cơ sở dữ liệu, tiếp đến là lập trình các module cốt lõi, nâng cấp các tính năng an ninh mạng và cuối cùng là kiểm thử đa máy trên thực tế để nghiệm thu sản phẩm."
 
 ---
 
-### SLIDE 06: CHỨC NĂNG HỆ THỐNG
-- **Học sinh:** Đăng ký, làm bài thi có đếm ngược, tự động nộp bài khi hết giờ, xem điểm tức thì, xem giải thích chi tiết, xem lịch sử thi.
-- **Giáo viên:** Quản lý đề thi (tạo, sửa, xóa), sinh câu hỏi AI, duyệt câu hỏi, xem thống kê phổ điểm.
-- **Quản trị viên:** Quản lý tài khoản người dùng, giám sát nhật ký AI (`AIGenerationLogs`), thống kê toàn trường.
+### SLIDE 05: CHỨC NĂNG HỆ THỐNG
+**Chữ trên Slide:**
+* **Phân hệ Học sinh (Thí sinh):**
+  - Đăng ký / Đăng nhập: Tài khoản bảo mật với JWT.
+  - Làm bài trực tuyến: Đồng hồ đếm ngược đồng bộ Server UTC.
+  - Trộn đề: Câu hỏi & 4 đáp án A, B, C, D đảo ngẫu nhiên.
+  - Chống mất dữ liệu: Tự động lưu đáp án (Auto-Save) real-time.
+  - Xem kết quả: Chấm điểm tức thì kèm giải thích chi tiết đáp án.
+* **Phân hệ Quản trị & Giáo viên:**
+  - AI Tạo đề: Nhập văn bản/chủ đề -> Gemini AI sinh trắc nghiệm.
+  - Kiểm duyệt: Xem trước, sửa đổi hoặc xóa câu hỏi AI.
+  - Quản lý đề: Tạo, xuất bản, xóa đề thi (Cascade Delete).
+  - Giám sát vi phạm: Bôi đỏ cảnh báo thí sinh rời màn hình.
+  - Xuất Excel (.xlsx): 1-Click tải bảng điểm chuẩn Microsoft Excel.
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Về mặt chức năng, hệ thống hỗ trợ 3 vai trò rõ rệt: Học sinh có trải nghiệm làm bài trơn tru với đồng hồ đếm ngược được đồng bộ từ server; Giáo viên có công cụ tạo đề thi truyền thống lẫn tự động bằng AI; và Admin có quyền quản trị toàn diện."
-
----
-
-### SLIDE 07: CÔNG NGHỆ SỬ DỤNG (TECH STACK)
-- **Backend:** C# ASP.NET Core 9.0 Web API, Entity Framework Core 9, SQL Server LocalDB.
-- **Frontend:** React 19, Vite, Tailwind CSS, Axios, React Router v7.
-- **Security:** JWT (JSON Web Token), BCrypt.Net.
-- **AI Service:** Google Gemini API (với HttpClientFactory).
-
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Về công nghệ: Nhóm lựa chọn ASP.NET Core 9 – một trong những framework backend có hiệu năng xử lý I/O mạng cao nhất hiện nay, kết hợp với React 19 và Vite ở phía Frontend để mang lại trải nghiệm SPA nhanh và mượt mà nhất."
-
----
-
-### SLIDE 08: KIẾN TRÚC HỆ THỐNG TỔNG THỂ (3-TIER ARCHITECTURE)
-- **Client Tier:** Trình duyệt web (Port 5173), tương tác người dùng, gửi yêu cầu HTTP/HTTPS.
-- **Server Tier:** ASP.NET Core Web API (Port 5000), gồm Controllers, Services, EF Core DbContext.
-- **Database & External Services:** SQL Server (7 bảng) và Google Gemini AI Cloud Service.
-
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Hệ thống được thiết kế theo mô hình 3 tầng chuẩn mực: Client Tier độc lập hoàn toàn với Server Tier, giao tiếp với nhau thuần túy qua giao thức HTTP RESTful API sử dụng dữ liệu JSON. Nhờ đó, backend có thể dễ dàng mở rộng phục vụ thêm ứng dụng Mobile sau này mà không cần thay đổi logic xử lý mạng."
+🗣️ **Lời thoại thuyết trình gợi ý (40 giây):**
+> "Về mặt chức năng, hệ thống cung cấp đầy đủ nghiệp vụ cho cả hai phía: Phía thí sinh được trải nghiệm giao diện thi trực quan, có cơ chế xáo trộn đề chống nhìn bài và tự động lưu câu trả lời phòng ngừa sự cố mạng. Phía giáo viên được hỗ trợ tạo đề thi tự động bằng AI, duyệt câu hỏi, giám sát vi phạm gian lận thời gian thực và xuất toàn bộ bảng điểm lớp học ra file Excel chỉ với 1 cú click chuột."
 
 ---
 
-### SLIDE 09: CÁC GIAO THỨC MẠNG ÁP DỤNG (TCP/IP STACK)
-- **Application Layer:** HTTP / HTTPS, REST API, JSON format.
-- **Transport Layer:** Giao thức **TCP (Transmission Control Protocol)**.
-- **Lý do chọn TCP:**
-  - Độ tin cậy tuyệt đối (Reliable Delivery).
-  - Cơ chế bắt tay 3 bước (3-Way Handshake: SYN -> SYN-ACK -> ACK).
-  - Đảm bảo đúng thứ tự phân đoạn dữ liệu, cơ chế báo nhận ACK và phát lại (Retransmission) khi có sự cố đường truyền.
+### SLIDE 06: CÔNG NGHỆ & KỸ THUẬT SỬ DỤNG
+**Chữ trên Slide (3 Khối):**
+* **Frontend Stack:** React 19 SPA • Vite 8 Build • TailwindCSS Dark Mode • Axios Interceptor • SheetJS (xlsx) Export.
+* **Backend Stack:** ASP.NET Core 9 Web API • Kestrel Server (<120ms) • JWT Stateless Auth • BCrypt.Net Salted Hash • Google Gemini GenAI.
+* **Database & Network:** SQL Server LocalDB • EF Core 9 Code-First • IP Binding `0.0.0.0` • SSH Reverse Tunnel (Pinggy / QR Code) • UTF-8 BOM tiếng Việt.
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Dưới góc độ Lập trình mạng, nhóm áp dụng mô hình phân tầng TCP/IP. Tại tầng truyền vận (Transport Layer), hệ thống bắt buộc sử dụng TCP thay vì UDP. Bởi vì trong bài toán thi cử, việc mất gói tin là điều tối kỵ – nếu một đáp án của thí sinh bị rớt gói tin trên đường truyền thì kết quả bài thi sẽ bị sai lệch. Cơ chế 3-way handshake và kiểm soát luồng của TCP đảm bảo dữ liệu gửi đến máy chủ luôn toàn vẹn và đúng thứ tự."
+🗣️ **Lời thoại thuyết trình gợi ý (35 giây):**
+> "Hệ thống sử dụng ngăn xếp công nghệ hiện đại nhằm tối ưu hóa hiệu năng mạng: Frontend dùng React 19 kết hợp Vite cho tốc độ tải trang cực nhanh; Backend sử dụng ASP.NET Core 9 chạy trên nền Kestrel Server với độ trễ phản hồi dưới 120ms; Cơ sở dữ liệu SQL Server đảm bảo tính toàn vẹn ACID; cùng các công nghệ mạng tiên tiến như SSH Tunneling và chuẩn xuất bảng tính SheetJS."
+
+---
+
+### SLIDE 07: KIẾN TRÚC HỆ THỐNG TỔNG THỂ (3-TIER)
+**Chữ trên Slide:**
+* **Tầng Client (Presentation):** Single Page Application (SPA) • Gửi request qua giao thức HTTP/HTTPS • Caching LocalStorage & SessionStorage • Bắt sự kiện gian lận chuyển tab/chụp ảnh.
+* **Tầng Server (Business Logic):** Tiếp nhận & điều phối RESTful API • Middleware kiểm tra JWT • Tính toán điểm số & đếm vi phạm • Đồng bộ giờ UTC Server • Gọi Google AI Studio qua HTTPS.
+* **Tầng Database (Data Access):** Lưu trữ bền vững dữ liệu ACID • Bảng Users (Hash BCrypt) • Bảng Exams & Questions • Bảng Submissions (Lưu điểm & Số lần vi phạm) • Bảng Details.
+
+🗣️ **Lời thoại thuyết trình gợi ý (40 giây):**
+> "QuizAI tuân thủ mô hình 3 tầng Client-Server chuẩn mực: Tầng Client tương tác trực tiếp với người dùng và quản lý bộ nhớ đệm cục bộ; Tầng Server đóng vai trò trung tâm xử lý nghiệp vụ, kiểm tra tính hợp lệ của token và chấm điểm độc lập; Tầng Database đảm bảo dữ liệu đề thi và lịch sử làm bài được lưu trữ bền vững, tuyệt đối không cho phép Client kết nối trực tiếp vào Database nhằm loại bỏ nguy cơ lộ dữ liệu."
+
+---
+
+### SLIDE 08: CƠ CHẾ CHẠY ĐA MÁY (LAN / INTERNET)
+**Chữ trên Slide:**
+* **1. Mạng LAN (Phòng Lab / Wi-Fi):**
+  - Lắng nghe `0.0.0.0`: Bind cổng 5000 & 5173 trên mọi card mạng.
+  - Vite Reverse Proxy: Chuyển tiếp `/api/*` về Backend Kestrel.
+  - Truy cập tức thì: Máy con gõ `http://192.168.x.x:5173`.
+  - Khởi động 1-Click: File `chay_he_thong.bat` tự tìm IP nội bộ.
+* **2. Public Internet (Khác mạng / 4G):**
+  - SSH Reverse Tunnel: Pinggy mã hóa dữ liệu qua cổng 443.
+  - Bỏ qua Firewall: Vượt qua bộ lọc AP Isolation của trường học.
+  - Mã QR tiện lợi: Điện thoại chỉ cần bật camera quét mã để thi.
+  - Bảo mật TLS: Mã hóa End-to-End an toàn tuyệt đối.
+
+🗣️ **Lời thoại thuyết trình gợi ý (45 giây):**
+> "Điểm sáng của đề tài là khả năng chạy đa máy trong thực tế: Server được cấu hình bind vào IP đại diện `0.0.0.0`, cho phép mọi thiết bị trong mạng Wi-Fi truy cập thẳng qua IP LAN của máy chủ. Đặc biệt, đối với các mạng bị chặn kết nối nội bộ như Wi-Fi trường học có bật AP Isolation, hệ thống tích hợp sẵn kênh truyền SSH Reverse Tunnel, cấp một đường link HTTPS công khai kèm mã QR để các máy ở xa hay dùng 4G đều vào thi được ngay mà không cần mở port modem."
+
+---
+
+### SLIDE 09: GIAO THỨC MẠNG & MÔ HÌNH TCP/IP
+**Chữ trên Slide:**
+* **Tại sao chọn TCP thay vì UDP?**
+  - Hướng kết nối (Connection-oriented): Đảm bảo thông suốt.
+  - Tin cậy tuyệt đối: Có cờ báo nhận ACK và Sequence Number.
+  - Chống mất gói tin: Tự động phát lại (Retransmission) nếu lag mạng.
+  - Không dùng UDP: Tránh thất lạc gói tin nộp bài làm sai lệch điểm.
+* **Cơ chế Bắt tay 3 bước (TCP 3-Way Handshake):**
+  - Bước 1 (SYN): Client gửi yêu cầu kết nối kèm số Seq khởi tạo.
+  - Bước 2 (SYN-ACK): Server xác nhận và gửi số Seq của mình.
+  - Bước 3 (ACK): Client xác nhận hoàn tất -> Phiên TCP mở.
+  - Ứng dụng: Mọi cuộc gọi HTTP/HTTPS đều thiết lập qua TCP.
+
+🗣️ **Lời thoại thuyết trình gợi ý (40 giây):**
+> "Dưới góc độ môn Lập trình mạng, bài thi trắc nghiệm đặt ra yêu cầu tuyệt đối về tính toàn vẹn dữ liệu. Giao thức TCP với cơ chế bắt tay 3 bước SYN, SYN-ACK, ACK và tự động truyền lại gói tin khi có sự cố nghẽn mạng là sự lựa chọn bắt buộc. Nếu sử dụng giao thức UDP, gói tin nộp bài của thí sinh có thể bị thất lạc trên đường truyền dẫn đến việc bài làm bị mất điểm hoặc không thể chấm điểm."
 
 ---
 
 ### SLIDE 10: GIAO THỨC WEB & RESTFUL API
-- **HTTP Methods:**
-  - `GET`: Lấy dữ liệu (Stateless, an toàn, có thể cache).
-  - `POST`: Tạo mới dữ liệu (Đăng nhập, tạo đề, nộp bài, gọi AI).
-  - `PATCH`: Cập nhật từng phần (Duyệt câu hỏi, publish đề thi).
-  - `DELETE`: Xóa tài nguyên (Xóa đề thi rác).
-- **HTTP Status Codes:** `200 OK`, `201 Created`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`, `500 Internal Error`.
-- **Stateless Principle:** Máy chủ không lưu session trong RAM, mỗi request tự mang đủ thông tin xác thực qua Header `Authorization`.
+**Chữ trên Slide:**
+* **Các Phương Thức HTTP Tiêu Chuẩn:**
+  - `GET`: Lấy tài nguyên (Đọc danh sách đề, xem bảng điểm).
+  - `POST`: Tạo tài nguyên mới (Đăng nhập, Bắt đầu thi, Nộp bài).
+  - `PATCH`: Cập nhật một phần (Duyệt câu hỏi, cập nhật vi phạm).
+  - `DELETE`: Xóa tài nguyên (Xóa vĩnh viễn đề thi kèm dữ liệu liên quan).
+* **Đặc Trưng Kiến Trúc REST:**
+  - Stateless (Phi trạng thái): Mỗi request chứa đủ thông tin xác thực.
+  - Định dạng JSON: Gọn nhẹ, tối ưu băng thông đường truyền mạng.
+  - Mã trạng thái HTTP chuẩn: 200 OK, 201 Created, 401 Unauthorized, 403 Forbidden.
+  - Swagger UI tích hợp: Tài liệu hóa trực quan tại `/swagger`.
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Tại tầng ứng dụng, nhóm xây dựng chuẩn RESTful Web API. Nhóm tuân thủ chặt chẽ việc sử dụng các động từ HTTP tương ứng với hành vi nghiệp vụ và trả về các mã trạng thái chuẩn quốc tế như 200, 201, 401 hoặc 403. Tính chất không trạng thái (Stateless) giúp máy chủ tiết kiệm bộ nhớ và dễ dàng mở rộng theo chiều ngang (load balancing)."
-
----
-
-### SLIDE 11: HTTPS: CƠ CHẾ HOẠT ĐỘNG & BẢO MẬT TLS/SSL
-- **Bản chất:** HTTP chạy trên nền tầng bảo mật TLS (Transport Layer Security) tại cổng 443.
-- **Mục tiêu an ninh:**
-  - Confidentiality (Tính bí mật): Mã hóa chống nghe lén dữ liệu bài thi (Sniffing).
-  - Integrity (Tính toàn vẹn): Mã băm MAC chống sửa đổi nội dung điểm số trên đường truyền.
-  - Authentication (Xác thực danh tính): Chứng chỉ số SSL/TLS ngăn chặn tấn công Man-in-the-Middle (MitM).
-- **Quy trình bắt tay TLS Handshake:** Client Hello -> Server Hello (kèm Certificate) -> Xác thực khóa & Trao đổi Pre-Master Secret -> Thiết lập Session Key đối xứng (AES) -> Truyền tải an toàn.
-
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Để bảo vệ dữ liệu trong môi trường mạng công cộng, hệ thống sử dụng giao thức HTTPS. Quy trình TLS Handshake diễn ra gồm 4 bước chính: hai bên thương lượng phiên bản và bộ mã hóa, server gửi chứng chỉ số công khai, client xác thực tính hợp lệ của server và trao đổi khóa bí mật. Sau đó, toàn bộ dữ liệu bài thi được mã hóa đối xứng bằng thuật toán AES tốc độ cao, ngăn chặn hoàn toàn nguy cơ nghe lén bằng Wireshark hoặc giả mạo đường truyền."
+🗣️ **Lời thoại thuyết trình gợi ý (35 giây):**
+> "Hệ thống chuẩn hóa toàn bộ giao tiếp mạng theo kiến trúc RESTful API. Dữ liệu được coi là các tài nguyên và thao tác thông qua các phương thức HTTP rõ ràng: GET để truy vấn, POST để tạo mới bài nộp, PATCH để duyệt câu hỏi và DELETE để xóa đề thi. Định dạng JSON gọn nhẹ giúp tiết kiệm tối đa băng thông mạng và tương thích với mọi thiết bị client."
 
 ---
 
-### SLIDE 12: BẢO MẬT XÁC THỰC JWT & CHÍNH SÁCH MẠNG CORS
-- **JWT (JSON Web Token):**
-  - Gồm 3 phần: `Header.Payload.Signature`.
-  - Signature được ký bằng thuật toán HMAC-SHA256 với Secret Key an toàn tại Server.
-  - Client gửi kèm trong Header: `Authorization: Bearer <Token>`.
-- **Cơ chế phân quyền RBAC:** Giải mã Role ngay tại Middleware không cần query DB.
-- **Xử lý CORS & Reverse Proxy:** Sử dụng Reverse Proxy của Vite chuyển tiếp request `/api` sang Backend để vượt qua chính sách Same-Origin Policy an toàn.
+### SLIDE 11: HTTPS & CƠ CHẾ BẢO MẬT TLS/SSL
+**Chữ trên Slide:**
+* **Quy trình Bắt tay TLS (TLS Handshake):**
+  - ClientHello: Client gửi phiên bản TLS và danh sách mã hóa hỗ trợ.
+  - ServerHello & Certificate: Server gửi chứng chỉ số chứa Public Key.
+  - Key Exchange: Trao đổi khóa bí mật phiên (Session Key) an toàn.
+  - Mã hóa đối xứng: Toàn bộ gói tin sau đó được mã hóa bằng AES-256.
+* **Tầm quan trọng trong QuizAI:**
+  - Chống bắt gói tin (Wireshark): Kẻ nghe lén chỉ thấy dữ liệu mã hóa.
+  - Bảo vệ Token & Mật khẩu: Không bị lộ mã JWT trên đường truyền Wi-Fi.
+  - Bảo vệ Gemini API Key: Kênh HTTPS ngăn chặn rò rỉ khóa bí mật.
+  - Toàn vẹn dữ liệu: Đảm bảo đáp án của thí sinh không bị sửa đổi trên mạng.
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Về khâu xác thực, nhóm sử dụng chuẩn JWT Bearer. Khi người dùng đăng nhập thành công, server cấp một chuỗi token có chữ ký số. Mọi request sau đó chỉ cần đính kèm token vào header Authorization. Server chỉ cần đối chiếu chữ ký mà không phải truy vấn lại cơ sở dữ liệu, giúp giảm tải I/O mạng đáng kể. Đối với vấn đề Cross-Origin Resource Sharing (CORS) giữa 2 port 5173 và 5000, nhóm cấu hình Reverse Proxy ngay tại Vite để đảm bảo bảo mật và luồng truyền thông suốt."
-
----
-
-### SLIDE 13: LUỒNG DỮ LIỆU 1 – ĐĂNG NHẬP & XÁC THỰC
-1. Client gửi `POST /api/auth/login` mang `{ username, password }`.
-2. Server truy vấn User, gọi `BCrypt.Verify()` so sánh mật khẩu băm với salt.
-3. Server ký số JWT Token mang các Claims (UserId, Role, FullName).
-4. Client nhận `200 OK`, lưu token vào `localStorage` và đính kèm vào Axios Interceptor.
-
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Đây là sơ đồ tuần tự của luồng xác thực: Mật khẩu của thí sinh không bao giờ được lưu dạng rõ (plaintext) trong database mà được băm bằng thuật toán BCrypt với salt ngẫu nhiên. Khi đăng nhập thành công, token được cấp và lưu trữ an toàn phía client."
+🗣️ **Lời thoại thuyết trình gợi ý (40 giây):**
+> "Để bảo vệ kỳ thi trước các cuộc tấn công mạng, giao thức HTTPS với lớp bảo mật TLS là yếu tố sống còn. Quá trình bắt tay TLS sẽ thiết lập một khóa phiên đối xứng AES-256. Dù kẻ tấn công cùng phòng thi có sử dụng phần mềm Wireshark để bắt gói tin mạng, họ cũng chỉ thấy các khối dữ liệu mã hóa ngẫu nhiên, hoàn toàn không thể đọc trộm được đề thi, token đăng nhập hay can thiệp sửa đổi đáp án của thí sinh."
 
 ---
 
-### SLIDE 14: LUỒNG DỮ LIỆU 2 – TỰ ĐỘNG SINH CÂU HỎI AI
-1. Giáo viên nhập chủ đề/văn bản -> Gửi `POST /api/ai/generate`.
-2. Backend đóng gói Prompt có System Instructions JSON -> Gọi Google Gemini API qua HTTPS POST.
-3. Nhận phản hồi, phân tích JSON, kiểm tra tính hợp lệ (đủ 4 options, 1 đáp án đúng).
-4. Lưu vào bảng `Questions` với trạng thái `PENDING`.
-5. Giáo viên kiểm duyệt -> Gửi `PATCH /api/exams/questions/{id}/approve` để xuất bản.
+### SLIDE 12: XÁC THỰC JWT & CHÍNH SÁCH MẠNG CORS
+**Chữ trên Slide:**
+* **Xác thực JWT (JSON Web Token):**
+  - Cấu trúc 3 phần: `Header . Payload . Signature` (HMAC-SHA256).
+  - Stateless Auth: Server không tốn RAM lưu Session hàng trăm học sinh.
+  - Xác thực nhanh: Server dùng `SecretKey` kiểm tra tính hợp lệ chữ ký.
+  - Axios Interceptor: Tự động đính kèm Bearer Token vào mọi request.
+* **Chính sách mạng CORS:**
+  - Same-Origin Policy: Trình duyệt mặc định chặn request khác domain/IP.
+  - Cấu hình nới lỏng: `policy.SetIsOriginAllowed(_ => true)`.
+  - Chấp nhận mọi IP: Laptop, điện thoại hay IP LAN đều kết nối được.
+  - Bảo mật an toàn: Vẫn duy trì kiểm soát nghiêm ngặt bằng JWT Token.
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Ở luồng dữ liệu thứ hai, Backend đóng vai trò như một HTTP Client gọi ra dịch vụ AI bên ngoài qua giao thức HTTPS. Quy trình này được bảo vệ bởi cơ chế kiểm tra schema dữ liệu trước khi ghi vào database nhằm loại bỏ hoàn toàn các câu hỏi bị lỗi cú pháp."
-
----
-
-### SLIDE 15: LUỒNG DỮ LIỆU 3 – LÀM BÀI THI & CHẤM ĐIỂM
-1. Học sinh nhấn Bắt đầu -> `POST /api/submissions/start`.
-2. Server trả về thời gian làm bài tính theo **đồng hồ Server (Server Time)**, triệt tiêu gian lận chỉnh giờ máy client.
-3. Đồng hồ đếm ngược chạy trên giao diện; tự động trigger submit khi hết giờ.
-4. Gửi `POST /api/submissions/submit` -> Server đối chiếu bảng `Options`, tính điểm phần trăm và trả về kết quả kèm giải thích chi tiết.
-5. **Cơ chế chống mất mạng (Fault Tolerance):** Nếu bị rớt mạng, học sinh vào lại hệ thống sẽ tiếp tục bài thi đang dở dang (`IN_PROGRESS`).
-
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Ở luồng làm bài thi, nhóm đặc biệt chú trọng cơ chế chống gian lận thời gian: đồng hồ đếm ngược được tính toán dựa trên timestamp của máy chủ chứ không phụ thuộc vào đồng hồ cục bộ của máy học sinh. Đồng thời, nếu học sinh gặp sự cố mạng đột ngột thì bài thi vẫn được lưu trạng thái để có thể tiếp tục làm bài mà không mất quyền lợi."
+🗣️ **Lời thoại thuyết trình gợi ý (35 giây):**
+> "Cơ chế xác thực JWT Stateless giúp máy chủ không cần tốn bộ nhớ RAM lưu session của từng thí sinh, chỉ cần giải mã chữ ký số là xác định được danh tính. Đồng thời, cấu hình chính sách CORS nới lỏng cho phép các thiết bị di động hay laptop mang IP mạng LAN khác nhau đều gửi được dữ liệu về máy chủ mà không bị trình duyệt chặn theo chính sách cùng nguồn gốc."
 
 ---
 
-### SLIDE 16: KẾT QUẢ ĐẠT ĐƯỢC & DEMO GIAO DIỆN
-- 100% các API RESTful hoạt động ổn định và có tài liệu Swagger đầy đủ.
-- Thời gian phản hồi API trung bình < 150ms.
-- Tốc độ sinh câu hỏi bằng AI: chỉ 3-5 giây cho một bộ câu hỏi hoàn chỉnh.
-- Giao diện Dark Mode hiện đại, responsive mượt mà trên máy tính và điện thoại.
+### SLIDE 13: HỆ THỐNG CHỐNG GIAN LẬN ĐA TẦNG (3 LỚP)
+**Chữ trên Slide (3 Cột):**
+* **Lớp 1 (Chống chuyển tab):** Bắt `visibilitychange` & `blur` • Cooldown 2.5s chống tính đúp • Vi phạm lần 1 & 2: Cảnh báo đỏ • **Vi phạm lần 3: Tự động thu hồi & nộp bài ngay.**
+* **Lớp 2 (Chặn sao chép):** Chặn phím `PrintScreen` (chớp đen màn hình) • Khóa `Ctrl+C/X/A`, `Ctrl+P` (in) • Khóa `F12` & DevTools soi đáp án • Tắt chuột phải & chống bôi đen văn bản.
+* **Lớp 3 (Watermark Camera):** In mờ chéo Họ tên & Username thí sinh • Phủ khắp nền màn hình bài thi • Chụp ảnh điện thoại lộ rõ danh tính • Ghi nhận số vi phạm gửi về máy chủ.
 
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Sau đây là các kết quả thực nghiệm: Hệ thống đạt tốc độ phản hồi rất nhanh, trung bình dưới 150ms cho các tác vụ thi cử. Giao diện được thiết kế trực quan, hỗ trợ đầy đủ các thao tác từ làm bài thi, nộp bài, xem giải thích chi tiết cho đến các biểu đồ thống kê điểm số phục vụ giáo viên."
-
----
-
-### SLIDE 17: KẾT LUẬN & ĐỊNH HƯỚNG PHÁT TRIỂN CUỐI KỲ
-- **Đạt được:** Hoàn thành trọn vẹn kiến trúc mạng Client-Server, áp dụng đúng các giao thức TCP/IP, HTTP/HTTPS, bảo mật JWT và ứng dụng AI thực tế.
-- **Định hướng cuối kỳ:**
-  1. Tích hợp **SignalR / WebSocket** để giám sát thí sinh theo thời gian thực (real-time proctoring).
-  2. Bổ sung tính năng đấu đối kháng trắc nghiệm thời gian thực (Quiz Battle qua Socket).
-  3. Đóng gói Docker Container và triển khai lên Cloud Server với tên miền và chứng chỉ SSL quốc tế.
-
-🗣️ **Lời thoại thuyết trình gợi ý:**
-> "Tóm lại, trong giai đoạn giữa kỳ, nhóm em đã hoàn thành đầy đủ mục tiêu đề ra cho môn Lập trình mạng. Hướng phát triển cho giai đoạn cuối kỳ, nhóm sẽ nâng cấp giao thức truyền thông lên WebSockets/SignalR để hỗ trợ tính năng thi đấu real-time và giám sát phòng thi trực tuyến. Em xin chân thành cảm ơn Thầy/Cô và các bạn đã lắng nghe!"
+🗣️ **Lời thoại thuyết trình gợi ý (45 giây):**
+> "Hệ thống chống gian lận của QuizAI được xây dựng 3 lớp vững chắc: Lớp 1 phát hiện hành vi rời màn hình hoặc bấm Alt+Tab. Nhờ cơ chế cooldown 2.5 giây, mỗi lần chuyển tab chỉ tính đúng 1 lần vi phạm: thí sinh được cảnh báo ở lần 1, lần 2 và đúng lần thứ 3 bài thi sẽ tự động bị thu hồi. Lớp 2 vô hiệu hóa toàn bộ phím tắt chụp màn hình, in ấn, phím F12 mở DevTools và chuột phải. Lớp 3 là Watermark in chéo tên thí sinh lên màn hình, nếu dùng điện thoại chụp ảnh lại thì danh tính người chụp cũng sẽ in rõ trên câu hỏi."
 
 ---
 
-## 🎯 CÁC CÂU HỎI PHẢN BIỆN THƯỜNG GẶP TỪ GIẢNG VIÊN & CÁCH TRẢ LỜI
+### SLIDE 14: LUỒNG DỮ LIỆU CHÍNH CỦA HỆ THỐNG
+**Chữ trên Slide (2 Khối luồng dữ liệu):**
+* **Luồng 1 (Đăng nhập & Xác thực):**
+  1. Client gửi `POST /api/auth/login` kèm thông tin đăng nhập.
+  2. Server kiểm tra Username & so khớp mã băm mật khẩu BCrypt.
+  3. Server tạo chuỗi JWT Token có chữ ký số -> Trả về Client.
+  4. Client lưu Token vào LocalStorage và phân hướng theo Role.
+* **Luồng 2 (Làm bài thi & Chấm điểm):**
+  1. Bắt đầu: `POST /api/submissions/start` -> Nhận đề & Server Time.
+  2. Làm bài: Trộn ngẫu nhiên câu hỏi & Auto-Save vào LocalStorage.
+  3. Giám sát: Ghi nhận vi phạm chuyển tab (Tối đa 3 lần).
+  4. Nộp bài: `POST /api/submissions/submit` -> Chấm điểm & hiện giải thích.
 
-**Câu 1: Tại sao đồ án này lại dùng TCP mà không dùng UDP?**
-> *Trả lời:* "Dạ thưa Thầy/Cô, trong ứng dụng thi trắc nghiệm trực tuyến, yêu cầu bắt buộc là tính toàn vẹn và độ tin cậy tuyệt đối của dữ liệu. Nếu dùng UDP, do không có cơ chế bắt tay và không có báo nhận ACK, các gói tin nộp bài thi hoặc câu hỏi có thể bị thất lạc trên mạng dẫn đến sai lệch kết quả thi của thí sinh. Do đó, giao thức TCP với cơ chế 3-way handshake và tự động phát lại (retransmission) là sự lựa chọn duy nhất phù hợp."
+🗣️ **Lời thoại thuyết trình gợi ý (40 giây):**
+> "Về mặt luồng dữ liệu, mọi hoạt động đều diễn ra chặt chẽ: Ở luồng đăng nhập, mật khẩu được kiểm tra qua hàm băm BCrypt có muối trước khi server cấp token JWT. Ở luồng làm bài thi, client nhận đề thi và đồng bộ thời gian theo giờ server, câu hỏi được xáo trộn ngẫu nhiên và lưu tạm vào LocalStorage để chống mất mạng. Khi kết thúc, gói tin nộp bài được server đối chiếu đáp án, tính điểm phần trăm và lưu vết số lần vi phạm của thí sinh."
 
-**Câu 2: Làm sao hệ thống chống được việc học sinh sửa giờ máy tính để kéo dài thời gian làm bài?**
-> *Trả lời:* "Dạ thưa Thầy/Cô, thời gian làm bài không tính theo đồng hồ trên máy Client. Khi học sinh bấm bắt đầu, Server ghi nhận `StartedAt` theo giờ UTC của máy chủ. Mỗi khi Client tương tác hoặc nộp bài, Server sẽ tính: `Thời gian còn lại = Thời lượng đề thi - (Giờ hiện tại của Server - StartedAt)`. Dù học sinh có chỉnh đồng hồ trên máy tính lùi lại bao nhiêu đi nữa thì Server vẫn tính theo mốc giờ của chính nó và tự động khóa bài khi hết hạn."
+---
 
-**Câu 3: HTTPS bảo vệ dữ liệu thi cử như thế nào trước kẻ nghe lén dùng Wireshark?**
-> *Trả lời:* "Dạ thưa Thầy/Cô, khi chưa có HTTPS, kẻ tấn công cùng mạng Wi-Fi có thể dùng Wireshark để bắt gói tin HTTP thuần, đọc được toàn bộ đáp án và token tài khoản ở dạng rõ. Với HTTPS, quá trình bắt tay TLS sẽ thiết lập một khóa phiên đối xứng (Session Key AES). Mọi gói tin ở tầng ứng dụng đều được mã hóa trước khi đưa xuống tầng TCP, nên kẻ bắt gói tin chỉ thấy các khối dữ liệu mã hóa ngẫu nhiên, không thể giải mã được nếu không có khóa bí mật."
+### SLIDE 15: KẾT QUẢ ĐẠT ĐƯỢC & HIỆU NĂNG THỰC TẾ
+**Chữ trên Slide (4 Khối số liệu lớn):**
+* **`< 120 ms`:** Tốc độ phản hồi API trung bình qua giao thức HTTP.
+* **`3 - 5 giây`:** Gemini AI sinh hoàn chỉnh 10 câu hỏi kèm giải thích.
+* **`100%`:** Bảo toàn dữ liệu khi rớt mạng Wi-Fi hoặc F5 tải lại trang.
+* **`Chuẩn .XLSX`:** Xuất bảng điểm Excel độ rộng chuẩn, triệt tiêu lỗi `###`.
+* *100% các tính năng hoạt động ổn định trên cả máy tính và điện thoại thông minh.*
 
-**Câu 4: JWT lưu ở localStorage có an toàn không và Server xác thực nó như thế nào?**
-> *Trả lời:* "Dạ thưa Thầy/Cô, JWT gồm 3 phần: Header, Payload và Signature. Server xác thực bằng cách lấy Header và Payload, kết hợp với mã bí mật (Secret Key) chỉ Server biết để băm lại bằng HMAC-SHA256. Nếu chữ ký trùng khớp thì token hợp lệ. Việc này không cần truy vấn database giúp tăng tốc độ mạng. Về lưu trữ, ngoài `localStorage`, hệ thống có thể nâng cấp lưu trong `HttpOnly Cookie` để phòng chống triệt để tấn công XSS."
+🗣️ **Lời thoại thuyết trình gợi ý (35 giây):**
+> "Kết quả thực nghiệm cho thấy hệ thống vận hành cực kỳ mượt mà: Độ trễ phản hồi API trung bình dưới 120ms, thời gian AI tạo bộ đề chỉ từ 3 đến 5 giây. Khả năng bảo toàn dữ liệu khi giả lập ngắt mạng đạt 100%. Đặc biệt, tính năng xuất bảng điểm đã được nâng cấp lên chuẩn file Excel .XLSX với độ rộng cột tự động, khắc phục hoàn toàn lỗi hiển thị dấu thăng hay che khuất chữ của các định dạng CSV cũ."
+
+---
+
+### SLIDE 16: KẾT LUẬN & ĐỊNH HƯỚNG PHÁT TRIỂN
+**Chữ trên Slide:**
+* **Kết Luận Đạt Được:**
+  - Hoàn thành trọn vẹn kiến trúc mạng Client-Server.
+  - Vận dụng xuất sắc các giao thức TCP/IP, HTTP, HTTPS & JWT.
+  - Giải quyết triệt để vấn đề gian lận và rớt mạng khi thi cử.
+  - Ứng dụng thực tiễn cao: Sẵn sàng dùng cho lớp học và kỳ thi.
+* **Định Hướng Cuối Kỳ:**
+  - WebSocket / SignalR: Chế độ thi đấu đối kháng trực tiếp (Kahoot Mode).
+  - AI Camera: Giám sát nhận diện khuôn mặt qua webcam.
+  - Docker Container: Đóng gói toàn bộ Backend & DB vào Container.
+  - Cloud Deployment: Triển khai lên máy chủ đám mây với tên miền riêng.
+
+🗣️ **Lời thoại thuyết trình gợi ý (35 giây):**
+> "Tóm lại, dự án QuizAI đã hiện thực hóa trọn vẹn các kiến thức cốt lõi của môn Lập trình mạng thành một sản phẩm có tính ứng dụng cao trong giáo dục. Hướng phát triển cho giai đoạn cuối kỳ, nhóm sẽ nâng cấp giao thức truyền thông hai chiều thời gian thực bằng WebSockets và SignalR để xây dựng chế độ thi đấu đối kháng trực tiếp, đồng thời đóng gói Docker và đưa hệ thống lên máy chủ đám mây. Nhóm em xin chân thành cảm ơn Thầy/Cô và các bạn đã lắng nghe!"
