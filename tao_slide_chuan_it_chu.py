@@ -11,18 +11,20 @@ def create_presentation(output_path):
     prs.slide_height = Inches(7.5)
     blank_layout = prs.slide_layouts[6]
 
-    # Modern Tech Dark Palette
-    C_BG = RGBColor(11, 15, 25)           # Dark Slate (#0B0F19)
-    C_CARD = RGBColor(19, 27, 46)         # Deep Navy Card (#131B2E)
-    C_BORDER = RGBColor(40, 53, 84)       # Subtle Border (#283554)
-    C_PRIMARY = RGBColor(99, 102, 241)    # Indigo Accent (#6366F1)
-    C_CYAN = RGBColor(6, 182, 212)        # Cyan Accent (#06B6D4)
-    C_GREEN = RGBColor(16, 185, 129)      # Emerald Accent (#10B981)
-    C_AMBER = RGBColor(245, 158, 11)      # Amber Accent (#F59E0B)
-    C_RED = RGBColor(239, 68, 68)         # Crimson Red (#EF4444)
-    C_WHITE = RGBColor(255, 255, 255)
-    C_TEXT = RGBColor(203, 213, 225)      # Slate 300 Text
-    C_MUTED = RGBColor(148, 163, 184)     # Slate 400 Subtitle
+    # Modern Professional Light Theme (Nền Trắng Sáng Chuẩn Thuyết Trình)
+    C_BG = RGBColor(255, 255, 255)         # Pure White Canvas (#FFFFFF)
+    C_CARD = RGBColor(248, 250, 252)       # Slate 50 Light Card (#F8FAFC)
+    C_BORDER = RGBColor(226, 232, 240)     # Slate 200 Subtle Border (#E2E8F0)
+    C_TITLE = RGBColor(15, 23, 42)         # Slate 900 Deep Charcoal (#0F172A)
+    C_TEXT = RGBColor(51, 65, 85)          # Slate 700 High Contrast Text (#334155)
+    C_MUTED = RGBColor(100, 116, 139)      # Slate 500 Subtitle/Caption (#64748B)
+
+    # Vivid Accents for High Readability on White
+    C_PRIMARY = RGBColor(67, 56, 202)      # Indigo 700 (#4338CA) - Deep & Elegant
+    C_CYAN = RGBColor(3, 105, 161)         # Sky 700 (#0369A1) - Crisp Accent
+    C_GREEN = RGBColor(4, 120, 87)         # Emerald 700 (#047857) - Success Green
+    C_AMBER = RGBColor(180, 83, 9)         # Amber 700 (#B45309) - High Contrast Amber
+    C_RED = RGBColor(185, 28, 28)          # Red 700 (#B91C1C) - High Contrast Crimson
 
     FONT_TITLE = "Segoe UI"
     FONT_BODY = "Segoe UI"
@@ -50,7 +52,7 @@ def create_presentation(output_path):
         p.font.name = FONT_TITLE
         p.font.size = Pt(11)
         p.font.bold = True
-        p.font.color.rgb = C_CYAN
+        p.font.color.rgb = C_PRIMARY
         p.space_after = Pt(2)
 
         p = tf.add_paragraph()
@@ -58,7 +60,7 @@ def create_presentation(output_path):
         p.font.name = FONT_TITLE
         p.font.size = Pt(22)
         p.font.bold = True
-        p.font.color.rgb = C_WHITE
+        p.font.color.rgb = C_TITLE
         p.space_after = Pt(2)
 
         if subtitle:
@@ -68,12 +70,12 @@ def create_presentation(output_path):
             p.font.size = Pt(13)
             p.font.color.rgb = C_MUTED
 
-    def add_card(slide, left, top, width, height, title="", title_color=C_WHITE, bg_color=C_CARD, border_color=C_BORDER):
+    def add_card(slide, left, top, width, height, title="", title_color=C_TITLE, bg_color=C_CARD, border_color=C_BORDER):
         card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
         card.fill.solid()
         card.fill.fore_color.rgb = bg_color
         card.line.color.rgb = border_color
-        card.line.width = Pt(1)
+        card.line.width = Pt(1.2)
 
         if title:
             txBox = slide.shapes.add_textbox(left + Inches(0.25), top + Inches(0.2), width - Inches(0.5), Inches(0.4))
@@ -124,7 +126,7 @@ def create_presentation(output_path):
     p.font.name = FONT_TITLE
     p.font.size = Pt(12)
     p.font.bold = True
-    p.font.color.rgb = C_CYAN
+    p.font.color.rgb = C_PRIMARY
     p.space_after = Pt(14)
 
     p = tf.add_paragraph()
@@ -133,7 +135,7 @@ def create_presentation(output_path):
     p.font.name = FONT_TITLE
     p.font.size = Pt(28)
     p.font.bold = True
-    p.font.color.rgb = C_WHITE
+    p.font.color.rgb = C_TITLE
     p.space_after = Pt(16)
 
     p = tf.add_paragraph()
@@ -180,7 +182,7 @@ def create_presentation(output_path):
     # SLIDE 3: THÀNH VIÊN & PHÂN CÔNG CÔNG VIỆC
     # ==========================================
     s3 = prs.slides.add_slide(blank_layout)
-    add_header(s3, "02. Tổ Chức", "Thành Viên & Phân Công Công Việc", "Phân chia rõ ràng trách nhiệm theo từng tầng kiến trúc hệ thống")
+    add_header(s3, "02. Tổ Chức", "Thành Viên & PhÂN CÔNG CÔNG VIỆC", "Phân chia rõ ràng trách nhiệm theo từng tầng kiến trúc hệ thống")
 
     add_card(s3, Inches(0.8), Inches(1.8), Inches(3.6), Inches(5.1), "Backend & Architecture", C_PRIMARY)
     add_bullets(s3, Inches(1.05), Inches(2.5), Inches(3.1), Inches(4.0), [
@@ -194,7 +196,7 @@ def create_presentation(output_path):
     add_card(s3, Inches(4.85), Inches(1.8), Inches(3.6), Inches(5.1), "Frontend & UX/UI", C_CYAN)
     add_bullets(s3, Inches(5.1), Inches(2.5), Inches(3.1), Inches(4.0), [
         "• Xây dựng giao diện React 19 SPA.",
-        "• Dark Mode hiện đại với TailwindCSS.",
+        "• Thiết kế giao diện hiện đại & responsive.",
         "• Xử lý Auto-Save & Countdown Timer.",
         "• Trộn đề ngẫu nhiên per attempt.",
         "• Bảng thống kê & Xuất Excel (.xlsx)."
@@ -281,7 +283,7 @@ def create_presentation(output_path):
     add_bullets(s6, Inches(1.05), Inches(2.5), Inches(3.1), Inches(4.0), [
         "• React 19: Xây dựng SPA tốc độ cao.",
         "• Vite 8: Build siêu tốc, hỗ trợ Proxy.",
-        "• TailwindCSS: Giao diện Dark Mode.",
+        "• TailwindCSS: UI hiện đại, responsive.",
         "• Axios: Tự đính kèm Bearer Token.",
         "• SheetJS (xlsx): Xuất file Excel chuẩn."
     ])
@@ -594,7 +596,7 @@ def create_presentation(output_path):
     p2.font.size = Pt(12)
     p2.font.color.rgb = C_MUTED
 
-    h_box = add_card(s15, Inches(0.8), Inches(4.15), Inches(11.55), Inches(2.75), "Điểm Nổi Bật Vận Hành Thực Tế", C_WHITE)
+    h_box = add_card(s15, Inches(0.8), Inches(4.15), Inches(11.55), Inches(2.75), "Điểm Nổi Bật Vận Hành Thực Tế", C_TITLE)
     add_bullets(s15, Inches(1.1), Inches(4.75), Inches(11.0), Inches(1.9), [
         "✓ Chạy thực tế trên đám mây Production: https://quiz-ai-system.vercel.app/.",
         "✓ Hỗ trợ thi đồng thời nhiều thiết bị qua mạng LAN và Cloudflare Tunnel an toàn.",
@@ -648,7 +650,7 @@ def create_presentation(output_path):
     p.font.name = FONT_TITLE
     p.font.size = Pt(13)
     p.font.bold = True
-    p.font.color.rgb = C_CYAN
+    p.font.color.rgb = C_PRIMARY
     p.space_after = Pt(12)
 
     p = tf.add_paragraph()
@@ -657,7 +659,7 @@ def create_presentation(output_path):
     p.font.name = FONT_TITLE
     p.font.size = Pt(26)
     p.font.bold = True
-    p.font.color.rgb = C_WHITE
+    p.font.color.rgb = C_TITLE
     p.space_after = Pt(18)
 
     p = tf.add_paragraph()
@@ -665,7 +667,7 @@ def create_presentation(output_path):
     p.text = "Hệ Thống Trực Tuyến: https://quiz-ai-system.vercel.app/\nGitHub: https://github.com/hieuqt05/quiz-ai-system"
     p.font.name = FONT_BODY
     p.font.size = Pt(14)
-    p.font.color.rgb = C_GREEN
+    p.font.color.rgb = C_PRIMARY
     p.space_after = Pt(24)
 
     p = tf.add_paragraph()
