@@ -33,6 +33,7 @@ export default function QuizPage() {
   const [violationModal, setViolationModal] = useState(null);
   const [isScreenBlanks, setIsScreenBlanks] = useState(false);
   const submittingRef = useRef(false);
+  const lastViolationTimeRef = useRef(0);
 
   // Thông tin thí sinh hiển thị Watermark
   const currentUser = (() => {
@@ -165,29 +166,38 @@ export default function QuizPage() {
   useEffect(() => {
     if (!submissionId || loading || submitting) return;
 
+    const MAX_ALLOWED_WARNINGS = 3; // Cho phép tối đa 3 lần cảnh báo
+
     const recordViolation = (reason) => {
       if (submittingRef.current) return;
 
-      setViolationCount(prev => {
-        const next = prev + 1;
-        sessionStorage.setItem(`quiz_violations_${submissionId}`, next.toString());
+      const now = Date.now();
+      // Chống bắt sự kiện đúp: Khi người dùng chuyển tab, cả window.blur và visibilitychange
+      // đều kích hoạt cùng lúc trong vài mili-giây. Cooldown 2.5 giây đảm bảo 1 lần chuyển tab chỉ tính đúng 1 lần vi phạm!
+      if (now - lastViolationTimeRef.current < 2500) {
+        return;
+      }
+      lastViolationTimeRef.current = now;
 
-        if (next >= 3) {
-          // Vi phạm 3 lần -> Tự động nộp bài lập tức
-          toast.error('BẠN ĐÃ VI PHẠM QUY CHẾ 3 LẦN! HỆ THỐNG TỰ ĐỘNG THU HỒI BÀI THI!', {
-            duration: 8000,
-            icon: '🚨'
-          });
-          handleSubmit(next);
-        } else {
-          setViolationModal({
-            count: next,
-            max: 3,
-            reason: reason || 'Rời khỏi màn hình làm bài thi (Chuyển tab / Mở ứng dụng khác)'
-          });
-        }
-        return next;
-      });
+      const currentStored = parseInt(sessionStorage.getItem(`quiz_violations_${submissionId}`) || '0', 10);
+      const next = currentStored + 1;
+      sessionStorage.setItem(`quiz_violations_${submissionId}`, next.toString());
+      setViolationCount(next);
+
+      if (next > MAX_ALLOWED_WARNINGS) {
+        // Vi phạm vượt quá 3 lần (đến lần thứ 4) -> Tự động nộp bài và thu hồi bài thi
+        toast.error('BẠN ĐÃ VI PHẠM QUY CHẾ QUÁ 3 LẦN! HỆ THỐNG TỰ ĐỘNG THU HỒI BÀI THI!', {
+          duration: 8000,
+          icon: '🚨'
+        });
+        handleSubmit(next);
+      } else {
+        setViolationModal({
+          count: next,
+          max: MAX_ALLOWED_WARNINGS,
+          reason: reason || 'Rời khỏi màn hình làm bài thi (Chuyển tab / Mở ứng dụng khác)'
+        });
+      }
     };
 
     const handleVisibilityChange = () => {
@@ -347,10 +357,12 @@ export default function QuizPage() {
               <div className="text-sm font-medium text-red-800">
                 Số lần vi phạm: <span className="text-lg font-black text-red-600">{violationModal.count}</span> / {violationModal.max}
               </div>
-              <p className="text-xs text-red-500 mt-1">
-                {violationModal.count >= 2
-                  ? '⚠️ CHÚ Ý: Vi phạm thêm 1 lần nữa bài thi sẽ bị TỰ ĐỘNG THU HỒI VÀ CHẤM ĐIỂM!'
-                  : 'Nghiêm cấm chuyển tab, mở tài liệu hoặc chia sẻ màn hình trong lúc làm bài.'}
+              <p className="text-xs text-red-500 mt-1 font-medium">
+                {violationModal.count >= violationModal.max
+                  ? '🚨 NGUY CẤP: Bạn đã dùng hết 3 lần cảnh báo (3/3)! Nếu rời màn hình thêm 1 lần nữa, bài thi sẽ bị TỰ ĐỘNG THU HỒI VÀ CHẤM ĐIỂM NGAY LẬP TỨC!'
+                  : violationModal.count === 2
+                  ? '⚠️ CẢNH BÁO: Bạn chỉ còn 1 lần cơ hội duy nhất trước khi bài thi bị tự động thu hồi!'
+                  : 'Nghiêm cấm chuyển tab, mở tài liệu hoặc chia sẻ màn hình trong lúc làm bài (Còn 2 cơ hội).'}
               </p>
             </div>
 
