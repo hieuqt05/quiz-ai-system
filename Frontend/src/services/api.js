@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Kết nối tới Backend qua Cloudflare Tunnel hoặc .env
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://thus-participant-relocation-for.trycloudflare.com/api';
+// Kết nối trực tiếp tới Backend ASP.NET Core qua Cloudflare Tunnel
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://examples-counsel-stored-root.trycloudflare.com/api';
 
 const api = axios.create({
   baseURL: API_BASE,
