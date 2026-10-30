@@ -162,7 +162,10 @@ export default function QuizPage() {
     }
   }, [submissionId, answers, exam, navigate]);
 
-  // 4. CHỐNG GIAN LẬN: PHÁT HIỆN CHUYỂN TAB / THU NHỎ / ALT+TAB
+  // =========================================================================
+  // HỆ THỐNG CHỐNG GIAN LẬN 2 LỚP TỰ ĐỘNG (2-LAYER ANTI-CHEAT ENGINE)
+  // =========================================================================
+  // LỚP 1: GIÁM SÁT NGỮ CẢNH & RỜI MÀN HÌNH (DEBOUNCE 2.5S - TỰ ĐỘNG THU BÀI LẦN 3)
   useEffect(() => {
     if (!submissionId || loading || submitting) return;
 
@@ -219,7 +222,7 @@ export default function QuizPage() {
     };
   }, [submissionId, loading, submitting, handleSubmit]);
 
-  // 5. CHỐNG CHỤP MÀN HÌNH, COPY, IN ẤN VÀ PHÍM TẮT GIAN LẬN
+  // LỚP 2: CHẶN CAN THIỆP MÃ NGUỒN, SAO CHÉP & PHÍM TẮT (PRINTSCREEN, F12, DEVTOOLS)
   useEffect(() => {
     const handleKeyDown = (e) => {
       // 1. Phím PrintScreen hoặc Alt+PrintScreen
@@ -339,18 +342,6 @@ export default function QuizPage() {
           [ẢNH CHỤP ĐÃ BỊ CHE ĐỂ BẢO VỆ ĐỀ THI]
         </div>
       )}
-
-      {/* WATERMARK CHỐNG CHỤP MÀN HÌNH / CHỤP CAMERA BẰNG ĐIỆN THOẠI */}
-      <div
-        className="fixed inset-0 pointer-events-none z-10 opacity-[0.07] flex flex-wrap content-around justify-around overflow-hidden select-none"
-        aria-hidden="true"
-      >
-        {Array.from({ length: 24 }).map((_, idx) => (
-          <div key={idx} className="transform -rotate-45 text-sm font-bold text-slate-400 tracking-wider p-6">
-            {currentUser?.fullName || 'Thí sinh'} • @{currentUser?.username || 'user'} • QuizAI #{submissionId}
-          </div>
-        ))}
-      </div>
 
       {/* POPUP CẢNH BÁO VI PHẠM QUY CHẾ (CHUYỂN TAB) */}
       {violationModal && (
